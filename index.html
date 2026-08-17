@@ -2,79 +2,78 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>CapOrFacts</title>
 
 <style>
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#0d0f17;
-  color:white;
-  min-height:100vh;
+margin:0;
+font-family:Arial,sans-serif;
+background:#0d0f17;
+color:white;
+min-height:100vh
 }
 
 .app{
-  width:100%;
-  max-width:520px;
-  margin:auto;
-  padding:25px;
+width:100%;
+max-width:520px;
+margin:auto;
+padding:25px
 }
 
 .logo{
-  text-align:center;
-  font-size:42px;
-  font-weight:900;
-  margin:20px 0 8px;
+text-align:center;
+font-size:42px;
+font-weight:900;
+margin:20px 0 8px
 }
 
-.logo .cap{color:#ff4d5a}
-.logo .facts{color:#4ade80}
+.cap{color:#ff4d5a}
+.facts{color:#4ade80}
 
 .subtitle{
-  text-align:center;
-  color:#9ca3af;
-  margin-bottom:25px;
+text-align:center;
+color:#9ca3af;
+margin-bottom:25px
 }
 
-.language{
-  margin-bottom:20px;
-}
+.language{margin-bottom:20px}
 
-.language select{
-  width:100%;
-  padding:13px;
-  border-radius:12px;
-  border:1px solid #343a4d;
-  background:#171a26;
-  color:white;
-  font-size:15px;
+select,input{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:1px solid #343a4d;
+background:#0d0f17;
+color:white;
+font-size:16px;
+outline:none
 }
 
 .screen{display:none}
 .screen.active{display:block}
 
 .card{
-  background:#171a26;
-  border:1px solid #292e3d;
-  border-radius:24px;
-  padding:25px;
-  box-shadow:0 15px 40px rgba(0,0,0,.3);
-  margin-bottom:18px;
+background:#171a26;
+border:1px solid #292e3d;
+border-radius:24px;
+padding:25px;
+box-shadow:0 15px 40px rgba(0,0,0,.3);
+margin-bottom:18px
 }
 
 button{
-  width:100%;
-  border:0;
-  cursor:pointer;
-  color:white;
-  font-size:17px;
-  font-weight:800;
-  border-radius:15px;
-  padding:16px;
-  margin-top:10px;
+width:100%;
+border:0;
+cursor:pointer;
+color:white;
+font-size:17px;
+font-weight:800;
+border-radius:15px;
+padding:16px;
+margin-top:10px
 }
 
 button:active{transform:scale(.97)}
@@ -88,154 +87,136 @@ button:active{transform:scale(.97)}
 h2{text-align:center;margin-top:0}
 
 label{
-  display:block;
-  color:#aab1c2;
-  font-size:14px;
-  margin-top:18px;
-  margin-bottom:7px;
-}
-
-input,select{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid #343a4d;
-  background:#0d0f17;
-  color:white;
-  font-size:16px;
-  outline:none;
+display:block;
+color:#aab1c2;
+font-size:14px;
+margin-top:18px;
+margin-bottom:7px
 }
 
 .option-row{
-  display:flex;
-  gap:10px;
+display:flex;
+gap:10px
 }
 
 .option{
-  flex:1;
-  padding:14px;
-  background:#0d0f17;
-  border:2px solid #292e3d;
-  border-radius:12px;
-  text-align:center;
-  cursor:pointer;
-  font-weight:bold;
+flex:1;
+padding:14px;
+background:#0d0f17;
+border:2px solid #292e3d;
+border-radius:12px;
+text-align:center;
+cursor:pointer;
+font-weight:bold
 }
 
 .option.selected{
-  border-color:#5865f2;
-  background:#20243a;
+border-color:#5865f2;
+background:#20243a
 }
 
 .code{
-  text-align:center;
-  font-size:36px;
-  font-weight:900;
-  letter-spacing:7px;
-  color:#4ade80;
-  margin:20px 0;
+text-align:center;
+font-size:36px;
+font-weight:900;
+letter-spacing:7px;
+color:#4ade80;
+margin:20px 0
 }
 
 .player{
-  display:flex;
-  justify-content:space-between;
-  background:#0d0f17;
-  padding:13px;
-  border-radius:12px;
-  margin-top:8px;
-}
-
-.host{
-  color:#facc15;
-  font-size:12px;
+display:flex;
+justify-content:space-between;
+background:#0d0f17;
+padding:13px;
+border-radius:12px;
+margin-top:8px
 }
 
 .waiting{
-  text-align:center;
-  color:#9ca3af;
-  margin:20px 0;
+text-align:center;
+color:#9ca3af;
+margin:20px 0
 }
 
 .question-number{
-  text-align:center;
-  color:#8b93a7;
-  font-size:14px;
-  margin-bottom:20px;
+text-align:center;
+color:#8b93a7;
+font-size:14px;
+margin-bottom:20px
 }
 
 .question{
-  text-align:center;
-  font-size:26px;
-  line-height:1.35;
-  font-weight:800;
-  margin-bottom:30px;
+text-align:center;
+font-size:26px;
+line-height:1.35;
+font-weight:800;
+margin-bottom:30px
 }
 
 .vote-buttons{
-  display:flex;
-  gap:12px;
+display:flex;
+gap:12px
 }
 
-.vote-buttons button{
-  flex:1;
-}
+.vote-buttons button{flex:1}
 
 .cap-button{background:#ef4444}
 .facts-button{background:#22c55e}
 
 .results{
-  display:none;
-  margin-top:25px;
+display:none;
+margin-top:25px
 }
 
 .result-title{
-  text-align:center;
-  font-size:22px;
-  font-weight:900;
-  margin-bottom:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
+margin-bottom:20px
 }
 
 .bar{
-  height:25px;
-  display:flex;
-  border-radius:20px;
-  overflow:hidden;
-  background:#292e3d;
+height:25px;
+display:flex;
+border-radius:20px;
+overflow:hidden;
+background:#292e3d
 }
 
 .cap-bar{background:#ef4444}
 .facts-bar{background:#22c55e}
 
 .percentages{
-  display:flex;
-  justify-content:space-between;
-  margin-top:10px;
-  font-weight:bold;
+display:flex;
+justify-content:space-between;
+margin-top:10px;
+font-weight:bold
 }
 
 .score{
-  text-align:center;
-  color:#aab1c2;
-  margin-top:25px;
+text-align:center;
+color:#aab1c2;
+margin-top:25px
 }
 
 .score strong{
-  color:white;
-  font-size:20px;
+color:white;
+font-size:20px
 }
 
 .error{
-  color:#ff6b6b;
-  text-align:center;
-  margin-top:10px;
-  display:none;
+color:#ff6b6b;
+text-align:center;
+margin-top:10px;
+display:none
 }
 
 .footer{
-  text-align:center;
-  color:#5f6678;
-  font-size:13px;
-  margin-top:25px;
+text-align:center;
+color:#5f6678;
+font-size:13px;
+margin-top:25px
 }
 </style>
 </head>
@@ -254,7 +235,6 @@ Your opinion. Everyone decides.
 
 <div class="language">
 <select id="languageSelect" onchange="changeLanguage(this.value)">
-
 <option value="en">English</option>
 <option value="ro">Română</option>
 <option value="fr">Français</option>
@@ -304,7 +284,6 @@ Your opinion. Everyone decides.
 <option value="ar">العربية</option>
 <option value="en-CA">English (Canada)</option>
 <option value="es-MX">Español (México)</option>
-<option value="fa-IR">فارسی (ایران)</option>
 <option value="ar-SA">العربية (السعودية)</option>
 <option value="ar-IQ">العربية (العراق)</option>
 <option value="ar-JO">العربية (الأردن)</option>
@@ -317,7 +296,6 @@ Your opinion. Everyone decides.
 <option value="es-AR">Español (Argentina)</option>
 <option value="es-CL">Español (Chile)</option>
 <option value="it-CH">Italiano (Svizzera)</option>
-
 </select>
 </div>
 
@@ -325,41 +303,34 @@ Your opinion. Everyone decides.
 <!-- HOME -->
 
 <div id="home" class="screen active">
-
 <div class="card">
 
 <h2 id="welcome">Welcome</h2>
 
-<button
-class="create"
+<button class="create"
 onclick="showScreen('create')"
 id="createButton">
 CREATE SERVER
 </button>
 
-<button
-class="join"
+<button class="join"
 onclick="showScreen('join')"
 id="joinButton">
 JOIN SERVER
 </button>
 
 </div>
-
 </div>
 
 
 <!-- CREATE SERVER -->
 
 <div id="create" class="screen">
-
 <div class="card">
 
 <h2 id="createTitle">Create Server</h2>
 
-<label id="serverNameLabel">
-Server name
-</label>
+<label id="serverNameLabel">Server name</label>
 
 <input
 id="serverName"
@@ -367,12 +338,9 @@ maxlength="25"
 placeholder="My CapOrFacts Server"
 >
 
-<label id="playerLimitLabel">
-Maximum players
-</label>
+<label id="playerLimitLabel">Maximum players</label>
 
 <select id="playerLimit">
-
 <option value="3">3 players</option>
 <option value="4">4 players</option>
 <option value="5">5 players</option>
@@ -381,12 +349,9 @@ Maximum players
 <option value="8">8 players</option>
 <option value="9">9 players</option>
 <option value="10">10 players</option>
-
 </select>
 
-<label id="serverTypeLabel">
-Server type
-</label>
+<label id="serverTypeLabel">Server type</label>
 
 <div class="option-row">
 
@@ -421,23 +386,17 @@ BACK
 </button>
 
 </div>
-
 </div>
 
 
 <!-- JOIN SERVER -->
 
 <div id="join" class="screen">
-
 <div class="card">
 
-<h2 id="joinTitle">
-Join Server
-</h2>
+<h2 id="joinTitle">Join Server</h2>
 
-<label id="inviteLabel">
-Invite code
-</label>
+<label id="inviteLabel">Invite code</label>
 
 <input
 id="joinCode"
@@ -453,9 +412,7 @@ id="joinServerButton">
 JOIN SERVER
 </button>
 
-<div
-id="joinError"
-class="error">
+<div id="joinError" class="error">
 Invalid invite code.
 </div>
 
@@ -467,50 +424,38 @@ BACK
 </button>
 
 </div>
-
 </div>
 
 
 <!-- LOBBY -->
 
 <div id="lobby" class="screen">
-
 <div class="card">
 
-<h2 id="lobbyName">
-Server
-</h2>
+<h2 id="lobbyName">Server</h2>
 
-<div
-class="waiting"
-id="inviteText">
+<div class="waiting" id="inviteText">
 Invite code
 </div>
 
-<div
-id="inviteCode"
-class="code">
+<div id="inviteCode" class="code">
 ABC123
 </div>
 
-<div
-class="waiting"
-id="shareText">
+<div class="waiting" id="shareText">
 Share this code with your friends.
 </div>
 
 <div id="fakePlayers"></div>
 
-<div
-id="lobbyStatus"
-class="waiting">
+<div class="waiting" id="lobbyStatus">
 Waiting for players...
 </div>
 
 <button
 id="startButton"
 class="primary"
-onclick="startGame()">
+onclick="startGame">
 START GAME
 </button>
 
@@ -522,31 +467,23 @@ LEAVE SERVER
 </button>
 
 </div>
-
 </div>
 
 
 <!-- GAME -->
 
 <div id="game" class="screen">
-
 <div class="card">
 
-<div
-class="question-number"
-id="questionNumber">
+<div class="question-number" id="questionNumber">
 Question 1
 </div>
 
-<div
-class="question"
-id="question">
+<div class="question" id="question">
 Pizza is better than burgers.
 </div>
 
-<div
-id="voteButtons"
-class="vote-buttons">
+<div id="voteButtons" class="vote-buttons">
 
 <button
 class="cap-button"
@@ -564,13 +501,9 @@ FACTS
 
 </div>
 
-<div
-id="results"
-class="results">
+<div id="results" class="results">
 
-<div
-id="winner"
-class="result-title">
+<div id="winner" class="result-title">
 RESULTS
 </div>
 
@@ -592,13 +525,8 @@ style="width:50%">
 
 <div class="percentages">
 
-<span id="capPercent">
-50% CAP
-</span>
-
-<span id="factsPercent">
-50% FACTS
-</span>
+<span id="capPercent">50% CAP</span>
+<span id="factsPercent">50% FACTS</span>
 
 </div>
 
@@ -613,18 +541,13 @@ NEXT QUESTION
 
 <div class="score">
 
-<span id="scoreText">
-Score:
-</span>
+<span id="scoreText">Score:</span>
 
-<strong id="score">
-0
-</strong>
+<strong id="score">0</strong>
 
 </div>
 
 </div>
-
 </div>
 
 
@@ -637,8 +560,11 @@ CapOrFacts — Your opinion matters.
 
 <script>
 
-const questions=[
+/* =========================
+   QUESTIONS
+========================= */
 
+const questions=[
 "Pizza is better than burgers.",
 "Summer is better than winter.",
 "Minecraft is better than Fortnite.",
@@ -659,9 +585,12 @@ const questions=[
 "Burgers are better than pizza.",
 "Multiplayer games are better than single-player games.",
 "Everyone should get one extra day off every week."
-
 ];
 
+
+/* =========================
+   TRANSLATIONS
+========================= */
 
 const translations={
 
@@ -798,34 +727,37 @@ invalid:"Código inválido."
 };
 
 
-function getTranslation(key){
+/* =========================
+   SCREEN NAVIGATION
+========================= */
 
-const lang=
-localStorage.getItem("capor_language")||"en";
+function showScreen(name){
 
-if(
-translations[lang] &&
-translations[lang][key]
-){
-return translations[lang][key];
+document
+.querySelectorAll(".screen")
+.forEach(screen=>{
+screen.classList.remove("active");
+});
+
+const screen=document.getElementById(name);
+
+if(screen){
+screen.classList.add("active");
 }
 
-return translations.en[key];
-
 }
 
+
+/* =========================
+   LANGUAGE
+========================= */
 
 function changeLanguage(lang){
 
-localStorage.setItem(
-"capor_language",
-lang
-);
-
+localStorage.setItem("capor_language",lang);
 applyLanguage();
 
 }
-
 
 function applyLanguage(){
 
@@ -842,62 +774,43 @@ document.getElementById("createButton").textContent=t.create;
 document.getElementById("joinButton").textContent=t.join;
 
 document.getElementById("createTitle").textContent=t.createTitle;
-
 document.getElementById("serverNameLabel").textContent=t.serverName;
-
 document.getElementById("playerLimitLabel").textContent=t.playerLimit;
-
 document.getElementById("serverTypeLabel").textContent=t.serverType;
 
 document.getElementById("publicOption").textContent=t.public;
-
 document.getElementById("privateOption").textContent=t.private;
 
 document.getElementById("createServerButton").textContent=t.createServer;
-
 document.getElementById("joinServerButton").textContent=t.joinServer;
 
 document.getElementById("backCreate").textContent=t.back;
-
 document.getElementById("backJoin").textContent=t.back;
 
 document.getElementById("joinTitle").textContent=t.join;
-
 document.getElementById("inviteLabel").textContent=t.invite;
 
 document.getElementById("inviteText").textContent=t.lobbyInvite;
-
 document.getElementById("shareText").textContent=t.share;
 
+document.getElementById("lobbyStatus").textContent=t.waiting;
+
 document.getElementById("startButton").textContent=t.start;
-
 document.getElementById("leaveButton").textContent=t.leave;
-
 document.getElementById("nextButton").textContent=t.next;
 
 document.getElementById("scoreText").textContent=t.score;
-
 document.getElementById("joinError").textContent=t.invalid;
 
 }
 
 
-function showScreen(name){
-
-document
-.querySelectorAll(".screen")
-.forEach(screen=>{
-screen.classList.remove("active");
-});
-
-document
-.getElementById(name)
-.classList.add("active");
-
-}
-
+/* =========================
+   SERVER
+========================= */
 
 let serverType="public";
+let currentServerCode="";
 
 function setServerType(type){
 
@@ -930,9 +843,7 @@ let code="";
 for(let i=0;i<6;i++){
 
 code+=chars[
-Math.floor(
-Math.random()*chars.length
-)
+Math.floor(Math.random()*chars.length)
 ];
 
 }
@@ -942,14 +853,10 @@ return code;
 }
 
 
-let currentServerCode="";
-
-
 function createServer(){
 
 let name=
-document
-.getElementById("serverName")
+document.getElementById("serverName")
 .value
 .trim();
 
@@ -959,27 +866,17 @@ name="CapOrFacts Server";
 
 const limit=
 Number(
-document
-.getElementById("playerLimit")
-.value
+document.getElementById("playerLimit").value
 );
 
-currentServerCode=
-generateCode();
+currentServerCode=generateCode();
 
-document
-.getElementById("lobbyName")
-.textContent=name;
-
-document
-.getElementById("inviteCode")
-.textContent=currentServerCode;
+document.getElementById("lobbyName").textContent=name;
+document.getElementById("inviteCode").textContent=currentServerCode;
 
 createDemoPlayers(limit);
 
-document
-.getElementById("startButton")
-.style.display="block";
+document.getElementById("startButton").style.display="block";
 
 showScreen("lobby");
 
@@ -1010,28 +907,20 @@ Math.min(2,limit-1);
 
 for(let i=0;i<demoCount;i++){
 
-const player=
-document.createElement("div");
+const player=document.createElement("div");
 
 player.className="player";
 
 player.innerHTML=
-"<span>"+
-names[i]+
-"</span>"+
+"<span>"+names[i]+"</span>"+
 "<span style='color:#4ade80'>READY</span>";
 
 container.appendChild(player);
 
 }
 
-document
-.getElementById("lobbyStatus")
-.textContent=
-(1+demoCount)+
-" / "+
-limit+
-" players";
+document.getElementById("lobbyStatus").textContent=
+(1+demoCount)+" / "+limit+" players";
 
 }
 
@@ -1039,8 +928,7 @@ limit+
 function joinServer(){
 
 const code=
-document
-.getElementById("joinCode")
+document.getElementById("joinCode")
 .value
 .trim()
 .toUpperCase();
@@ -1051,7 +939,6 @@ document.getElementById("joinError");
 if(code.length!==6){
 
 error.style.display="block";
-
 return;
 
 }
@@ -1060,45 +947,34 @@ error.style.display="none";
 
 currentServerCode=code;
 
-document
-.getElementById("lobbyName")
-.textContent=
-"Joined Server";
+document.getElementById("lobbyName").textContent="Joined Server";
+document.getElementById("inviteCode").textContent=code;
 
-document
-.getElementById("inviteCode")
-.textContent=code;
+document.getElementById("fakePlayers").innerHTML="";
 
-document
-.getElementById("fakePlayers")
-.innerHTML="";
-
-document
-.getElementById("lobbyStatus")
-.textContent=
+document.getElementById("lobbyStatus").textContent=
 "Waiting for the host to start...";
 
-document
-.getElementById("startButton")
-.style.display="none";
+document.getElementById("startButton").style.display="none";
 
 showScreen("lobby");
 
 }
 
 
+/* =========================
+   GAME
+========================= */
+
 let currentQuestion=0;
 let score=0;
-
 
 function startGame(){
 
 currentQuestion=0;
 score=0;
 
-document
-.getElementById("score")
-.textContent="0";
+document.getElementById("score").textContent="0";
 
 loadQuestion();
 
@@ -1109,51 +985,32 @@ showScreen("game");
 
 function loadQuestion(){
 
-const t=
-translations[
-localStorage.getItem("capor_language")||"en"
-]||translations.en;
+const lang=
+localStorage.getItem("capor_language")||"en";
 
-document
-.getElementById("question")
-.textContent=
+const t=
+translations[lang]||translations.en;
+
+document.getElementById("question").textContent=
 questions[currentQuestion];
 
-document
-.getElementById("questionNumber")
-.textContent=
-t.question+
-" "+
-(currentQuestion+1)+
-" / "+
-questions.length;
+document.getElementById("questionNumber").textContent=
+t.question+" "+(currentQuestion+1)+" / "+questions.length;
 
-document
-.getElementById("voteButtons")
-.style.display="flex";
+document.getElementById("voteButtons").style.display="flex";
 
-document
-.getElementById("results")
-.style.display="none";
+document.getElementById("results").style.display="none";
 
 }
 
 
 function vote(choice){
 
-document
-.getElementById("voteButtons")
-.style.display="none";
+document.getElementById("voteButtons").style.display="none";
+document.getElementById("results").style.display="block";
 
-document
-.getElementById("results")
-.style.display="block";
-
-let capVotes=
-Math.floor(Math.random()*4);
-
-let factsVotes=
-Math.floor(Math.random()*4);
+let capVotes=Math.floor(Math.random()*4);
+let factsVotes=Math.floor(Math.random()*4);
 
 if(choice==="cap"){
 capVotes++;
@@ -1161,73 +1018,46 @@ capVotes++;
 factsVotes++;
 }
 
-const total=
-capVotes+
-factsVotes;
+const total=capVotes+factsVotes;
 
 const capPercent=
-Math.round(
-(capVotes/total)*100
-);
+Math.round((capVotes/total)*100);
 
 const factsPercent=
 100-capPercent;
 
-document
-.getElementById("capBar")
-.style.width=
+document.getElementById("capBar").style.width=
 capPercent+"%";
 
-document
-.getElementById("factsBar")
-.style.width=
+document.getElementById("factsBar").style.width=
 factsPercent+"%";
 
-document
-.getElementById("capPercent")
-.textContent=
-capPercent+
-"% CAP";
+document.getElementById("capPercent").textContent=
+capPercent+"% CAP";
 
-document
-.getElementById("factsPercent")
-.textContent=
-factsPercent+
-"% FACTS";
+document.getElementById("factsPercent").textContent=
+factsPercent+"% FACTS";
 
 let winner;
 
 if(capPercent>factsPercent){
-
 winner="CAP WINS!";
-
 }else if(factsPercent>capPercent){
-
 winner="FACTS WINS!";
-
 }else{
-
 winner="IT'S A TIE!";
-
 }
 
-document
-.getElementById("winner")
-.textContent=winner;
+document.getElementById("winner").textContent=winner;
 
 if(
-(choice==="cap" &&
-capPercent>factsPercent)
-||
-(choice==="facts" &&
-factsPercent>capPercent)
+(choice==="cap" && capPercent>factsPercent) ||
+(choice==="facts" && factsPercent>capPercent)
 ){
 
 score++;
 
-document
-.getElementById("score")
-.textContent=score;
+document.getElementById("score").textContent=score;
 
 }
 
@@ -1238,12 +1068,8 @@ function nextQuestion(){
 
 currentQuestion++;
 
-if(
-currentQuestion>=questions.length
-){
-
+if(currentQuestion>=questions.length){
 currentQuestion=0;
-
 }
 
 loadQuestion();
@@ -1251,10 +1077,23 @@ loadQuestion();
 }
 
 
+/* =========================
+   LOAD SAVED LANGUAGE
+========================= */
+
 const savedLanguage=
 localStorage.getItem("capor_language");
 
 if(savedLanguage){
 
-document
-.getElementById("languageSele
+document.getElementById("languageSelect").value=
+savedLanguage;
+
+}
+
+applyLanguage();
+
+</script>
+
+</body>
+  </html>
