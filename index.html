@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CapOrFacts</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0d0f17;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 500px;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 38px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .logo span:first-child {
+      color: #ff4d5a;
+    }
+
+    .logo span:last-child {
+      color: #4ade80;
+    }
+
+    .subtitle {
+      color: #9ca3af;
+      margin-bottom: 35px;
+    }
+
+    .card {
+      background: #171a26;
+      border: 1px solid #292e3d;
+      border-radius: 24px;
+      padding: 30px 22px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    .question-number {
+      color: #8b93a7;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .question {
+      font-size: 25px;
+      line-height: 1.35;
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 18px;
+      font-weight: 800;
+      border-radius: 15px;
+      padding: 17px 10px;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    .cap {
+      background: #ef4444;
+      flex: 1;
+    }
+
+    .facts {
+      background: #22c55e;
+      flex: 1;
+    }
+
+    .results {
+      display: none;
+      margin-top: 25px;
+    }
+
+    .result-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .bar-container {
+      height: 18px;
+      background: #292e3d;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .cap-bar {
+      background: #ef4444;
+      width: 50%;
+      transition: width 0.5s;
+    }
+
+    .facts-bar {
+      background: #22c55e;
+      width: 50%;
+      transition: width 0.5s;
+    }
+
+    .percentages {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .next {
+      width: 100%;
+      margin-top: 22px;
+      background: #5865f2;
+      display: none;
+    }
+
+    .score {
+      margin-top: 25px;
+      color: #aab1c2;
+    }
+
+    .score strong {
+      color: white;
+    }
+
+    .footer {
+      margin-top: 25px;
+      color: #5f6678;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <div class="logo">
+      <span>Cap</span><span>OrFacts</span>
+    </div>
+
+    <div class="subtitle">
+      Tu alegi. Majoritatea decide.
+    </div>
+
+    <div class="card">
+
+      <div class="question-number" id="questionNumber">
+        Întrebarea 1
+      </div>
+
+      <div class="question" id="question">
+        Pizza e mai bună decât burgerii.
+      </div>
+
+      <div class="buttons" id="buttons">
+        <button class="cap" onclick="vote('cap')">
+          🧢 CAP
+        </button>
+
+        <button class="facts" onclick="vote('facts')">
+          FACTS
+        </button>
+      </div>
+
+      <div class="results" id="results">
+
+        <div class="result-title" id="winner">
+          Rezultatul
+        </div>
+
+        <div class="bar-container">
+          <div class="cap-bar" id="capBar"></div>
+          <div class="facts-bar" id="factsBar"></div>
+        </div>
+
+        <div class="percentages">
+          <span id="capPercent">50% CAP</span>
+          <span id="factsPercent">50% FACTS</span>
+        </div>
+
+      </div>
+
+      <button class="next" id="nextButton" onclick="nextQuestion()">
+        URMĂTOAREA
+      </button>
+
+      <div class="score">
+        Scorul tău: <strong id="score">0</strong>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      CapOrFacts — spune ce crezi.
+    </div>
+
+  </div>
+
+  <script>
+
+    const questions = [
+      "Pizza e mai bună decât burgerii.",
+      "Vara e mai bună decât iarna.",
+      "Minecraft e mai bun decât Fortnite.",
+      "Weekendul ar trebui să aibă trei zile.",
+      "Pisicile sunt mai bune decât câinii.",
+      "Filmele horror sunt mai bune noaptea.",
+      "Mâncarea făcută acasă e mai bună decât fast-food-ul.",
+      "Să dormi până târziu este mai bun decât să te trezești devreme.",
+      "Jocurile video sunt mai distractive decât sportul.",
+      "Pizza cu ananas este bună.",
+      "Vacanțele la mare sunt mai bune decât cele la munte.",
+      "Școala ar trebui să înceapă mai târziu.",
+      "Filmele sunt mai bune decât serialele.",
+      "A sta acasă este mai distractiv decât a ieși în oraș.",
+      "Dulciurile sunt mai bune decât chipsurile.",
+      "Plimbările noaptea sunt mai bune decât plimbările ziua.",
+      "Muzica este mai bună când o asculți cu căștile.",
+      "Burgerii sunt mai buni decât pizza.",
+      "Jocurile multiplayer sunt mai bune decât cele single-player.",
+      "Toată lumea ar trebui să aibă o zi liberă în plus în fiecare săptămână."
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function vote(choice) {
+
+      document.getElementById("buttons").style.display = "none";
+      document.getElementById("results").style.display = "block";
+      document.getElementById("nextButton").style.display = "block";
+
+      // Voturi simulate pentru prototip
+      let capVotes = Math.floor(Math.random() * 70) + 10;
+      let factsVotes = Math.floor(Math.random() * 70) + 10;
+
+      // Votul tău este adăugat
+      if (choice === "cap") {
+        capVotes++;
+      } else {
+        factsVotes++;
+      }
+
+      let total = capVotes + factsVotes;
+
+      let capPercent = Math.round((capVotes / total) * 100);
+      let factsPercent = 100 - capPercent;
+
+      document.getElementById("capBar").style.width = capPercent + "%";
+      document.getElementById("factsBar").style.width = factsPercent + "%";
+
+      document.getElementById("capPercent").textContent =
+        capPercent + "% CAP";
+
+      document.getElementById("factsPercent").textContent =
+        factsPercent + "% FACTS";
+
+      let winner = capPercent > factsPercent ? "CAP câștigă!" : "FACTS câștigă!";
+
+      if (capPercent === factsPercent) {
+        winner = "EGALITATE!";
+      }
+
+      document.getElementById("winner").textContent = winner;
+
+      // Dacă ai votat cu majoritatea
+      if (
+        (choice === "cap" && capPercent > factsPercent) ||
+        (choice === "facts" && factsPercent > capPercent)
+      ) {
+        score++;
+        document.getElementById("score").textContent = score;
+      }
+    }
+
+    function nextQuestion() {
+
+      currentQuestion++;
+
+      if (currentQuestion >= questions.length) {
+        currentQuestion = 0;
+      }
+
+      document.getElementById("question").textContent =
+        questions[currentQuestion];
+
+      document.getElementById("questionNumber").textContent =
+        "Întrebarea " + (currentQuestion + 1);
+
+      document.getElementById("buttons").style.display = "flex";
+      document.getElementById("results").style.display = "none";
+      document.getElementById("nextButton").style.display = "none";
+
+      document.getElementById("capBar").style.width = "50%";
+      document.getElementById("factsBar").style.width = "50%";
+    }
+
+  </script>
+
+</body>
+</html>
