@@ -1,331 +1,1260 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CapOrFacts</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CapOrFacts</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+*{box-sizing:border-box}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0d0f17;
-      color: white;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#0d0f17;
+  color:white;
+  min-height:100vh;
+}
 
-    .app {
-      width: 100%;
-      max-width: 500px;
-      padding: 25px;
-      text-align: center;
-    }
+.app{
+  width:100%;
+  max-width:520px;
+  margin:auto;
+  padding:25px;
+}
 
-    .logo {
-      font-size: 38px;
-      font-weight: 900;
-      margin-bottom: 8px;
-    }
+.logo{
+  text-align:center;
+  font-size:42px;
+  font-weight:900;
+  margin:20px 0 8px;
+}
 
-    .logo span:first-child {
-      color: #ff4d5a;
-    }
+.logo .cap{color:#ff4d5a}
+.logo .facts{color:#4ade80}
 
-    .logo span:last-child {
-      color: #4ade80;
-    }
+.subtitle{
+  text-align:center;
+  color:#9ca3af;
+  margin-bottom:25px;
+}
 
-    .subtitle {
-      color: #9ca3af;
-      margin-bottom: 35px;
-    }
+.language{
+  margin-bottom:20px;
+}
 
-    .card {
-      background: #171a26;
-      border: 1px solid #292e3d;
-      border-radius: 24px;
-      padding: 30px 22px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    }
+.language select{
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid #343a4d;
+  background:#171a26;
+  color:white;
+  font-size:15px;
+}
 
-    .question-number {
-      color: #8b93a7;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
+.screen{display:none}
+.screen.active{display:block}
 
-    .question {
-      font-size: 25px;
-      line-height: 1.35;
-      font-weight: 700;
-      margin-bottom: 30px;
-    }
+.card{
+  background:#171a26;
+  border:1px solid #292e3d;
+  border-radius:24px;
+  padding:25px;
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+  margin-bottom:18px;
+}
 
-    .buttons {
-      display: flex;
-      gap: 12px;
-    }
+button{
+  width:100%;
+  border:0;
+  cursor:pointer;
+  color:white;
+  font-size:17px;
+  font-weight:800;
+  border-radius:15px;
+  padding:16px;
+  margin-top:10px;
+}
 
-    button {
-      border: none;
-      cursor: pointer;
-      color: white;
-      font-size: 18px;
-      font-weight: 800;
-      border-radius: 15px;
-      padding: 17px 10px;
-      transition: transform 0.15s, opacity 0.15s;
-    }
+button:active{transform:scale(.97)}
 
-    button:active {
-      transform: scale(0.96);
-    }
+.create{background:#22c55e}
+.join{background:#ef4444}
+.primary{background:#5865f2}
+.secondary{background:#292e3d}
+.back{background:transparent;color:#9ca3af}
 
-    .cap {
-      background: #ef4444;
-      flex: 1;
-    }
+h2{text-align:center;margin-top:0}
 
-    .facts {
-      background: #22c55e;
-      flex: 1;
-    }
+label{
+  display:block;
+  color:#aab1c2;
+  font-size:14px;
+  margin-top:18px;
+  margin-bottom:7px;
+}
 
-    .results {
-      display: none;
-      margin-top: 25px;
-    }
+input,select{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #343a4d;
+  background:#0d0f17;
+  color:white;
+  font-size:16px;
+  outline:none;
+}
 
-    .result-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
+.option-row{
+  display:flex;
+  gap:10px;
+}
 
-    .bar-container {
-      height: 18px;
-      background: #292e3d;
-      border-radius: 20px;
-      overflow: hidden;
-      display: flex;
-    }
+.option{
+  flex:1;
+  padding:14px;
+  background:#0d0f17;
+  border:2px solid #292e3d;
+  border-radius:12px;
+  text-align:center;
+  cursor:pointer;
+  font-weight:bold;
+}
 
-    .cap-bar {
-      background: #ef4444;
-      width: 50%;
-      transition: width 0.5s;
-    }
+.option.selected{
+  border-color:#5865f2;
+  background:#20243a;
+}
 
-    .facts-bar {
-      background: #22c55e;
-      width: 50%;
-      transition: width 0.5s;
-    }
+.code{
+  text-align:center;
+  font-size:36px;
+  font-weight:900;
+  letter-spacing:7px;
+  color:#4ade80;
+  margin:20px 0;
+}
 
-    .percentages {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-      font-weight: bold;
-    }
+.player{
+  display:flex;
+  justify-content:space-between;
+  background:#0d0f17;
+  padding:13px;
+  border-radius:12px;
+  margin-top:8px;
+}
 
-    .next {
-      width: 100%;
-      margin-top: 22px;
-      background: #5865f2;
-      display: none;
-    }
+.host{
+  color:#facc15;
+  font-size:12px;
+}
 
-    .score {
-      margin-top: 25px;
-      color: #aab1c2;
-    }
+.waiting{
+  text-align:center;
+  color:#9ca3af;
+  margin:20px 0;
+}
 
-    .score strong {
-      color: white;
-    }
+.question-number{
+  text-align:center;
+  color:#8b93a7;
+  font-size:14px;
+  margin-bottom:20px;
+}
 
-    .footer {
-      margin-top: 25px;
-      color: #5f6678;
-      font-size: 13px;
-    }
-  </style>
+.question{
+  text-align:center;
+  font-size:26px;
+  line-height:1.35;
+  font-weight:800;
+  margin-bottom:30px;
+}
+
+.vote-buttons{
+  display:flex;
+  gap:12px;
+}
+
+.vote-buttons button{
+  flex:1;
+}
+
+.cap-button{background:#ef4444}
+.facts-button{background:#22c55e}
+
+.results{
+  display:none;
+  margin-top:25px;
+}
+
+.result-title{
+  text-align:center;
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:20px;
+}
+
+.bar{
+  height:25px;
+  display:flex;
+  border-radius:20px;
+  overflow:hidden;
+  background:#292e3d;
+}
+
+.cap-bar{background:#ef4444}
+.facts-bar{background:#22c55e}
+
+.percentages{
+  display:flex;
+  justify-content:space-between;
+  margin-top:10px;
+  font-weight:bold;
+}
+
+.score{
+  text-align:center;
+  color:#aab1c2;
+  margin-top:25px;
+}
+
+.score strong{
+  color:white;
+  font-size:20px;
+}
+
+.error{
+  color:#ff6b6b;
+  text-align:center;
+  margin-top:10px;
+  display:none;
+}
+
+.footer{
+  text-align:center;
+  color:#5f6678;
+  font-size:13px;
+  margin-top:25px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <div class="logo">
-      <span>Cap</span><span>OrFacts</span>
-    </div>
+<div class="logo">
+<span class="cap">Cap</span><span class="facts">OrFacts</span>
+</div>
 
-    <div class="subtitle">
-      Tu alegi. Majoritatea decide.
-    </div>
+<div class="subtitle" id="subtitle">
+Your opinion. Everyone decides.
+</div>
 
-    <div class="card">
+<div class="language">
+<select id="languageSelect" onchange="changeLanguage(this.value)">
 
-      <div class="question-number" id="questionNumber">
-        Întrebarea 1
-      </div>
+<option value="en">English</option>
+<option value="ro">Română</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+<option value="es">Español</option>
+<option value="it">Italiano</option>
+<option value="pt">Português</option>
+<option value="nl">Nederlands</option>
+<option value="pl">Polski</option>
+<option value="uk">Українська</option>
+<option value="ru">Русский</option>
+<option value="el">Ελληνικά</option>
+<option value="sv">Svenska</option>
+<option value="no">Norsk</option>
+<option value="da">Dansk</option>
+<option value="fi">Suomi</option>
+<option value="cs">Čeština</option>
+<option value="sk">Slovenčina</option>
+<option value="hu">Magyar</option>
+<option value="bg">Български</option>
+<option value="sr">Српски</option>
+<option value="hr">Hrvatski</option>
+<option value="sl">Slovenščina</option>
+<option value="bs">Bosanski</option>
+<option value="sq">Shqip</option>
+<option value="mk">Македонски</option>
+<option value="et">Eesti</option>
+<option value="lv">Latviešu</option>
+<option value="lt">Lietuvių</option>
+<option value="is">Íslenska</option>
+<option value="ga">Gaeilge</option>
+<option value="cy">Cymraeg</option>
+<option value="mt">Malti</option>
+<option value="tr">Türkçe</option>
+<option value="fil">Filipino</option>
+<option value="th">ไทย</option>
+<option value="ja">日本語</option>
+<option value="ko">한국어</option>
+<option value="hi">हिन्दी</option>
+<option value="id">Bahasa Indonesia</option>
+<option value="zh">简体中文</option>
+<option value="mn">Монгол</option>
+<option value="zh-TW">繁體中文</option>
+<option value="vi">Tiếng Việt</option>
+<option value="fa">فارسی</option>
+<option value="he">עברית</option>
+<option value="ar">العربية</option>
+<option value="en-CA">English (Canada)</option>
+<option value="es-MX">Español (México)</option>
+<option value="fa-IR">فارسی (ایران)</option>
+<option value="ar-SA">العربية (السعودية)</option>
+<option value="ar-IQ">العربية (العراق)</option>
+<option value="ar-JO">العربية (الأردن)</option>
+<option value="ar-PS">العربية (فلسطين)</option>
+<option value="ar-YE">العربية (اليمن)</option>
+<option value="de-AT">Deutsch (Österreich)</option>
+<option value="de-CH">Deutsch (Schweiz)</option>
+<option value="fr-CA">Français (Canada)</option>
+<option value="pt-BR">Português (Brasil)</option>
+<option value="es-AR">Español (Argentina)</option>
+<option value="es-CL">Español (Chile)</option>
+<option value="it-CH">Italiano (Svizzera)</option>
 
-      <div class="question" id="question">
-        Pizza e mai bună decât burgerii.
-      </div>
+</select>
+</div>
 
-      <div class="buttons" id="buttons">
-        <button class="cap" onclick="vote('cap')">
-          🧢 CAP
-        </button>
 
-        <button class="facts" onclick="vote('facts')">
-          FACTS
-        </button>
-      </div>
+<!-- HOME -->
 
-      <div class="results" id="results">
+<div id="home" class="screen active">
 
-        <div class="result-title" id="winner">
-          Rezultatul
-        </div>
+<div class="card">
 
-        <div class="bar-container">
-          <div class="cap-bar" id="capBar"></div>
-          <div class="facts-bar" id="factsBar"></div>
-        </div>
+<h2 id="welcome">Welcome</h2>
 
-        <div class="percentages">
-          <span id="capPercent">50% CAP</span>
-          <span id="factsPercent">50% FACTS</span>
-        </div>
+<button
+class="create"
+onclick="showScreen('create')"
+id="createButton">
+CREATE SERVER
+</button>
 
-      </div>
+<button
+class="join"
+onclick="showScreen('join')"
+id="joinButton">
+JOIN SERVER
+</button>
 
-      <button class="next" id="nextButton" onclick="nextQuestion()">
-        URMĂTOAREA
-      </button>
+</div>
 
-      <div class="score">
-        Scorul tău: <strong id="score">0</strong>
-      </div>
+</div>
 
-    </div>
 
-    <div class="footer">
-      CapOrFacts — spune ce crezi.
-    </div>
+<!-- CREATE SERVER -->
 
-  </div>
+<div id="create" class="screen">
 
-  <script>
+<div class="card">
 
-    const questions = [
-      "Pizza e mai bună decât burgerii.",
-      "Vara e mai bună decât iarna.",
-      "Minecraft e mai bun decât Fortnite.",
-      "Weekendul ar trebui să aibă trei zile.",
-      "Pisicile sunt mai bune decât câinii.",
-      "Filmele horror sunt mai bune noaptea.",
-      "Mâncarea făcută acasă e mai bună decât fast-food-ul.",
-      "Să dormi până târziu este mai bun decât să te trezești devreme.",
-      "Jocurile video sunt mai distractive decât sportul.",
-      "Pizza cu ananas este bună.",
-      "Vacanțele la mare sunt mai bune decât cele la munte.",
-      "Școala ar trebui să înceapă mai târziu.",
-      "Filmele sunt mai bune decât serialele.",
-      "A sta acasă este mai distractiv decât a ieși în oraș.",
-      "Dulciurile sunt mai bune decât chipsurile.",
-      "Plimbările noaptea sunt mai bune decât plimbările ziua.",
-      "Muzica este mai bună când o asculți cu căștile.",
-      "Burgerii sunt mai buni decât pizza.",
-      "Jocurile multiplayer sunt mai bune decât cele single-player.",
-      "Toată lumea ar trebui să aibă o zi liberă în plus în fiecare săptămână."
-    ];
+<h2 id="createTitle">Create Server</h2>
 
-    let currentQuestion = 0;
-    let score = 0;
+<label id="serverNameLabel">
+Server name
+</label>
 
-    function vote(choice) {
+<input
+id="serverName"
+maxlength="25"
+placeholder="My CapOrFacts Server"
+>
 
-      document.getElementById("buttons").style.display = "none";
-      document.getElementById("results").style.display = "block";
-      document.getElementById("nextButton").style.display = "block";
+<label id="playerLimitLabel">
+Maximum players
+</label>
 
-      // Voturi simulate pentru prototip
-      let capVotes = Math.floor(Math.random() * 70) + 10;
-      let factsVotes = Math.floor(Math.random() * 70) + 10;
+<select id="playerLimit">
 
-      // Votul tău este adăugat
-      if (choice === "cap") {
-        capVotes++;
-      } else {
-        factsVotes++;
-      }
+<option value="3">3 players</option>
+<option value="4">4 players</option>
+<option value="5">5 players</option>
+<option value="6">6 players</option>
+<option value="7">7 players</option>
+<option value="8">8 players</option>
+<option value="9">9 players</option>
+<option value="10">10 players</option>
 
-      let total = capVotes + factsVotes;
+</select>
 
-      let capPercent = Math.round((capVotes / total) * 100);
-      let factsPercent = 100 - capPercent;
+<label id="serverTypeLabel">
+Server type
+</label>
 
-      document.getElementById("capBar").style.width = capPercent + "%";
-      document.getElementById("factsBar").style.width = factsPercent + "%";
+<div class="option-row">
 
-      document.getElementById("capPercent").textContent =
-        capPercent + "% CAP";
+<div
+id="publicOption"
+class="option selected"
+onclick="setServerType('public')">
+PUBLIC
+</div>
 
-      document.getElementById("factsPercent").textContent =
-        factsPercent + "% FACTS";
+<div
+id="privateOption"
+class="option"
+onclick="setServerType('private')">
+PRIVATE
+</div>
 
-      let winner = capPercent > factsPercent ? "CAP câștigă!" : "FACTS câștigă!";
+</div>
 
-      if (capPercent === factsPercent) {
-        winner = "EGALITATE!";
-      }
+<button
+class="create"
+onclick="createServer()"
+id="createServerButton">
+CREATE SERVER
+</button>
 
-      document.getElementById("winner").textContent = winner;
+<button
+class="back"
+onclick="showScreen('home')"
+id="backCreate">
+BACK
+</button>
 
-      // Dacă ai votat cu majoritatea
-      if (
-        (choice === "cap" && capPercent > factsPercent) ||
-        (choice === "facts" && factsPercent > capPercent)
-      ) {
-        score++;
-        document.getElementById("score").textContent = score;
-      }
-    }
+</div>
 
-    function nextQuestion() {
+</div>
 
-      currentQuestion++;
 
-      if (currentQuestion >= questions.length) {
-        currentQuestion = 0;
-      }
+<!-- JOIN SERVER -->
 
-      document.getElementById("question").textContent =
-        questions[currentQuestion];
+<div id="join" class="screen">
 
-      document.getElementById("questionNumber").textContent =
-        "Întrebarea " + (currentQuestion + 1);
+<div class="card">
 
-      document.getElementById("buttons").style.display = "flex";
-      document.getElementById("results").style.display = "none";
-      document.getElementById("nextButton").style.display = "none";
+<h2 id="joinTitle">
+Join Server
+</h2>
 
-      document.getElementById("capBar").style.width = "50%";
-      document.getElementById("factsBar").style.width = "50%";
-    }
+<label id="inviteLabel">
+Invite code
+</label>
 
-  </script>
+<input
+id="joinCode"
+maxlength="6"
+placeholder="ABC123"
+style="text-transform:uppercase"
+>
 
-</body>
-</html>
+<button
+class="join"
+onclick="joinServer()"
+id="joinServerButton">
+JOIN SERVER
+</button>
+
+<div
+id="joinError"
+class="error">
+Invalid invite code.
+</div>
+
+<button
+class="back"
+onclick="showScreen('home')"
+id="backJoin">
+BACK
+</button>
+
+</div>
+
+</div>
+
+
+<!-- LOBBY -->
+
+<div id="lobby" class="screen">
+
+<div class="card">
+
+<h2 id="lobbyName">
+Server
+</h2>
+
+<div
+class="waiting"
+id="inviteText">
+Invite code
+</div>
+
+<div
+id="inviteCode"
+class="code">
+ABC123
+</div>
+
+<div
+class="waiting"
+id="shareText">
+Share this code with your friends.
+</div>
+
+<div id="fakePlayers"></div>
+
+<div
+id="lobbyStatus"
+class="waiting">
+Waiting for players...
+</div>
+
+<button
+id="startButton"
+class="primary"
+onclick="startGame()">
+START GAME
+</button>
+
+<button
+class="back"
+onclick="showScreen('home')"
+id="leaveButton">
+LEAVE SERVER
+</button>
+
+</div>
+
+</div>
+
+
+<!-- GAME -->
+
+<div id="game" class="screen">
+
+<div class="card">
+
+<div
+class="question-number"
+id="questionNumber">
+Question 1
+</div>
+
+<div
+class="question"
+id="question">
+Pizza is better than burgers.
+</div>
+
+<div
+id="voteButtons"
+class="vote-buttons">
+
+<button
+class="cap-button"
+onclick="vote('cap')"
+id="capButton">
+CAP
+</button>
+
+<button
+class="facts-button"
+onclick="vote('facts')"
+id="factsButton">
+FACTS
+</button>
+
+</div>
+
+<div
+id="results"
+class="results">
+
+<div
+id="winner"
+class="result-title">
+RESULTS
+</div>
+
+<div class="bar">
+
+<div
+id="capBar"
+class="cap-bar"
+style="width:50%">
+</div>
+
+<div
+id="factsBar"
+class="facts-bar"
+style="width:50%">
+</div>
+
+</div>
+
+<div class="percentages">
+
+<span id="capPercent">
+50% CAP
+</span>
+
+<span id="factsPercent">
+50% FACTS
+</span>
+
+</div>
+
+<button
+class="primary"
+onclick="nextQuestion()"
+id="nextButton">
+NEXT QUESTION
+</button>
+
+</div>
+
+<div class="score">
+
+<span id="scoreText">
+Score:
+</span>
+
+<strong id="score">
+0
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="footer">
+CapOrFacts — Your opinion matters.
+</div>
+
+</div>
+
+
+<script>
+
+const questions=[
+
+"Pizza is better than burgers.",
+"Summer is better than winter.",
+"Minecraft is better than Fortnite.",
+"The weekend should have three days.",
+"Cats are better than dogs.",
+"Horror movies are better at night.",
+"Homemade food is better than fast food.",
+"Sleeping late is better than waking up early.",
+"Video games are more fun than sports.",
+"Pineapple belongs on pizza.",
+"Beach vacations are better than mountain vacations.",
+"School should start later.",
+"Movies are better than TV shows.",
+"Staying home is more fun than going out.",
+"Candy is better than chips.",
+"Night walks are better than daytime walks.",
+"Music sounds better with headphones.",
+"Burgers are better than pizza.",
+"Multiplayer games are better than single-player games.",
+"Everyone should get one extra day off every week."
+
+];
+
+
+const translations={
+
+en:{
+subtitle:"Your opinion. Everyone decides.",
+welcome:"Welcome",
+create:"CREATE SERVER",
+join:"JOIN SERVER",
+createTitle:"Create Server",
+serverName:"Server name",
+playerLimit:"Maximum players",
+serverType:"Server type",
+public:"PUBLIC",
+private:"PRIVATE",
+back:"BACK",
+invite:"Invite code",
+createServer:"CREATE SERVER",
+joinServer:"JOIN SERVER",
+lobbyInvite:"Invite code",
+share:"Share this code with your friends.",
+waiting:"Waiting for players...",
+start:"START GAME",
+leave:"LEAVE SERVER",
+question:"Question",
+next:"NEXT QUESTION",
+score:"Score:",
+invalid:"Invalid invite code."
+},
+
+ro:{
+subtitle:"Tu alegi. Majoritatea decide.",
+welcome:"Bine ai venit",
+create:"CREEAZĂ SERVER",
+join:"INTRĂ ÎN SERVER",
+createTitle:"Creează server",
+serverName:"Numele serverului",
+playerLimit:"Număr maxim de jucători",
+serverType:"Tipul serverului",
+public:"PUBLIC",
+private:"PRIVAT",
+back:"ÎNAPOI",
+invite:"Cod de invitație",
+createServer:"CREEAZĂ SERVER",
+joinServer:"INTRĂ ÎN SERVER",
+lobbyInvite:"Cod de invitație",
+share:"Trimite acest cod prietenilor tăi.",
+waiting:"Se așteaptă jucători...",
+start:"ÎNCEPE JOCUL",
+leave:"IEȘI DIN SERVER",
+question:"Întrebarea",
+next:"URMĂTOAREA",
+score:"Scor:",
+invalid:"Cod de invitație invalid."
+},
+
+fr:{
+subtitle:"Ton opinion. Tout le monde décide.",
+welcome:"Bienvenue",
+create:"CRÉER UN SERVEUR",
+join:"REJOINDRE",
+createTitle:"Créer un serveur",
+serverName:"Nom du serveur",
+playerLimit:"Nombre maximum de joueurs",
+serverType:"Type de serveur",
+public:"PUBLIC",
+private:"PRIVÉ",
+back:"RETOUR",
+invite:"Code d'invitation",
+createServer:"CRÉER LE SERVEUR",
+joinServer:"REJOINDRE",
+lobbyInvite:"Code d'invitation",
+share:"Partage ce code avec tes amis.",
+waiting:"En attente des joueurs...",
+start:"COMMENCER",
+leave:"QUITTER",
+question:"Question",
+next:"QUESTION SUIVANTE",
+score:"Score:",
+invalid:"Code invalide."
+},
+
+de:{
+subtitle:"Deine Meinung. Die Mehrheit entscheidet.",
+welcome:"Willkommen",
+create:"SERVER ERSTELLEN",
+join:"SERVER BEITRETEN",
+createTitle:"Server erstellen",
+serverName:"Servername",
+playerLimit:"Maximale Spieler",
+serverType:"Servertyp",
+public:"ÖFFENTLICH",
+private:"PRIVAT",
+back:"ZURÜCK",
+invite:"Einladungscode",
+createServer:"SERVER ERSTELLEN",
+joinServer:"BEITRETEN",
+lobbyInvite:"Einladungscode",
+share:"Teile diesen Code mit deinen Freunden.",
+waiting:"Warte auf Spieler...",
+start:"SPIEL STARTEN",
+leave:"SERVER VERLASSEN",
+question:"Frage",
+next:"NÄCHSTE FRAGE",
+score:"Punktestand:",
+invalid:"Ungültiger Code."
+},
+
+es:{
+subtitle:"Tu opinión. La mayoría decide.",
+welcome:"Bienvenido",
+create:"CREAR SERVIDOR",
+join:"UNIRSE AL SERVIDOR",
+createTitle:"Crear servidor",
+serverName:"Nombre del servidor",
+playerLimit:"Máximo de jugadores",
+serverType:"Tipo de servidor",
+public:"PÚBLICO",
+private:"PRIVADO",
+back:"ATRÁS",
+invite:"Código de invitación",
+createServer:"CREAR SERVIDOR",
+joinServer:"UNIRSE",
+lobbyInvite:"Código de invitación",
+share:"Comparte este código con tus amigos.",
+waiting:"Esperando jugadores...",
+start:"EMPEZAR",
+leave:"SALIR",
+question:"Pregunta",
+next:"SIGUIENTE PREGUNTA",
+score:"Puntuación:",
+invalid:"Código inválido."
+}
+
+};
+
+
+function getTranslation(key){
+
+const lang=
+localStorage.getItem("capor_language")||"en";
+
+if(
+translations[lang] &&
+translations[lang][key]
+){
+return translations[lang][key];
+}
+
+return translations.en[key];
+
+}
+
+
+function changeLanguage(lang){
+
+localStorage.setItem(
+"capor_language",
+lang
+);
+
+applyLanguage();
+
+}
+
+
+function applyLanguage(){
+
+const lang=
+localStorage.getItem("capor_language")||"en";
+
+const t=
+translations[lang]||translations.en;
+
+document.getElementById("subtitle").textContent=t.subtitle;
+document.getElementById("welcome").textContent=t.welcome;
+
+document.getElementById("createButton").textContent=t.create;
+document.getElementById("joinButton").textContent=t.join;
+
+document.getElementById("createTitle").textContent=t.createTitle;
+
+document.getElementById("serverNameLabel").textContent=t.serverName;
+
+document.getElementById("playerLimitLabel").textContent=t.playerLimit;
+
+document.getElementById("serverTypeLabel").textContent=t.serverType;
+
+document.getElementById("publicOption").textContent=t.public;
+
+document.getElementById("privateOption").textContent=t.private;
+
+document.getElementById("createServerButton").textContent=t.createServer;
+
+document.getElementById("joinServerButton").textContent=t.joinServer;
+
+document.getElementById("backCreate").textContent=t.back;
+
+document.getElementById("backJoin").textContent=t.back;
+
+document.getElementById("joinTitle").textContent=t.join;
+
+document.getElementById("inviteLabel").textContent=t.invite;
+
+document.getElementById("inviteText").textContent=t.lobbyInvite;
+
+document.getElementById("shareText").textContent=t.share;
+
+document.getElementById("startButton").textContent=t.start;
+
+document.getElementById("leaveButton").textContent=t.leave;
+
+document.getElementById("nextButton").textContent=t.next;
+
+document.getElementById("scoreText").textContent=t.score;
+
+document.getElementById("joinError").textContent=t.invalid;
+
+}
+
+
+function showScreen(name){
+
+document
+.querySelectorAll(".screen")
+.forEach(screen=>{
+screen.classList.remove("active");
+});
+
+document
+.getElementById(name)
+.classList.add("active");
+
+}
+
+
+let serverType="public";
+
+function setServerType(type){
+
+serverType=type;
+
+document
+.getElementById("publicOption")
+.classList.toggle(
+"selected",
+type==="public"
+);
+
+document
+.getElementById("privateOption")
+.classList.toggle(
+"selected",
+type==="private"
+);
+
+}
+
+
+function generateCode(){
+
+const chars=
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+let code="";
+
+for(let i=0;i<6;i++){
+
+code+=chars[
+Math.floor(
+Math.random()*chars.length
+)
+];
+
+}
+
+return code;
+
+}
+
+
+let currentServerCode="";
+
+
+function createServer(){
+
+let name=
+document
+.getElementById("serverName")
+.value
+.trim();
+
+if(!name){
+name="CapOrFacts Server";
+}
+
+const limit=
+Number(
+document
+.getElementById("playerLimit")
+.value
+);
+
+currentServerCode=
+generateCode();
+
+document
+.getElementById("lobbyName")
+.textContent=name;
+
+document
+.getElementById("inviteCode")
+.textContent=currentServerCode;
+
+createDemoPlayers(limit);
+
+document
+.getElementById("startButton")
+.style.display="block";
+
+showScreen("lobby");
+
+}
+
+
+function createDemoPlayers(limit){
+
+const names=[
+"Alex",
+"Sam",
+"Jordan",
+"Chris",
+"Max",
+"Jamie",
+"Taylor",
+"Mason",
+"Leo"
+];
+
+const container=
+document.getElementById("fakePlayers");
+
+container.innerHTML="";
+
+const demoCount=
+Math.min(2,limit-1);
+
+for(let i=0;i<demoCount;i++){
+
+const player=
+document.createElement("div");
+
+player.className="player";
+
+player.innerHTML=
+"<span>"+
+names[i]+
+"</span>"+
+"<span style='color:#4ade80'>READY</span>";
+
+container.appendChild(player);
+
+}
+
+document
+.getElementById("lobbyStatus")
+.textContent=
+(1+demoCount)+
+" / "+
+limit+
+" players";
+
+}
+
+
+function joinServer(){
+
+const code=
+document
+.getElementById("joinCode")
+.value
+.trim()
+.toUpperCase();
+
+const error=
+document.getElementById("joinError");
+
+if(code.length!==6){
+
+error.style.display="block";
+
+return;
+
+}
+
+error.style.display="none";
+
+currentServerCode=code;
+
+document
+.getElementById("lobbyName")
+.textContent=
+"Joined Server";
+
+document
+.getElementById("inviteCode")
+.textContent=code;
+
+document
+.getElementById("fakePlayers")
+.innerHTML="";
+
+document
+.getElementById("lobbyStatus")
+.textContent=
+"Waiting for the host to start...";
+
+document
+.getElementById("startButton")
+.style.display="none";
+
+showScreen("lobby");
+
+}
+
+
+let currentQuestion=0;
+let score=0;
+
+
+function startGame(){
+
+currentQuestion=0;
+score=0;
+
+document
+.getElementById("score")
+.textContent="0";
+
+loadQuestion();
+
+showScreen("game");
+
+}
+
+
+function loadQuestion(){
+
+const t=
+translations[
+localStorage.getItem("capor_language")||"en"
+]||translations.en;
+
+document
+.getElementById("question")
+.textContent=
+questions[currentQuestion];
+
+document
+.getElementById("questionNumber")
+.textContent=
+t.question+
+" "+
+(currentQuestion+1)+
+" / "+
+questions.length;
+
+document
+.getElementById("voteButtons")
+.style.display="flex";
+
+document
+.getElementById("results")
+.style.display="none";
+
+}
+
+
+function vote(choice){
+
+document
+.getElementById("voteButtons")
+.style.display="none";
+
+document
+.getElementById("results")
+.style.display="block";
+
+let capVotes=
+Math.floor(Math.random()*4);
+
+let factsVotes=
+Math.floor(Math.random()*4);
+
+if(choice==="cap"){
+capVotes++;
+}else{
+factsVotes++;
+}
+
+const total=
+capVotes+
+factsVotes;
+
+const capPercent=
+Math.round(
+(capVotes/total)*100
+);
+
+const factsPercent=
+100-capPercent;
+
+document
+.getElementById("capBar")
+.style.width=
+capPercent+"%";
+
+document
+.getElementById("factsBar")
+.style.width=
+factsPercent+"%";
+
+document
+.getElementById("capPercent")
+.textContent=
+capPercent+
+"% CAP";
+
+document
+.getElementById("factsPercent")
+.textContent=
+factsPercent+
+"% FACTS";
+
+let winner;
+
+if(capPercent>factsPercent){
+
+winner="CAP WINS!";
+
+}else if(factsPercent>capPercent){
+
+winner="FACTS WINS!";
+
+}else{
+
+winner="IT'S A TIE!";
+
+}
+
+document
+.getElementById("winner")
+.textContent=winner;
+
+if(
+(choice==="cap" &&
+capPercent>factsPercent)
+||
+(choice==="facts" &&
+factsPercent>capPercent)
+){
+
+score++;
+
+document
+.getElementById("score")
+.textContent=score;
+
+}
+
+}
+
+
+function nextQuestion(){
+
+currentQuestion++;
+
+if(
+currentQuestion>=questions.length
+){
+
+currentQuestion=0;
+
+}
+
+loadQuestion();
+
+}
+
+
+const savedLanguage=
+localStorage.getItem("capor_language");
+
+if(savedLanguage){
+
+document
+.getElementById("languageSele
