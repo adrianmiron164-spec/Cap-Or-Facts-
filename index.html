@@ -660,7 +660,17 @@ input,select{
           JOIN SERVER
         </button>
 
+<button
+  class="bigButton green"
+  onclick="startSoloOpinionSetup()">
+  SOLO OPINION
+</button>
 
+<button
+  class="bigButton red"
+  onclick="startSoloDuelSetup()">
+  SOLO DUEL
+</button>
     
       </div>
     </div>
@@ -863,8 +873,8 @@ input,select{
 
       <div class="statLine">
         <span>🔴 CAP</span>
-        <strong id="myCap">0</strong>
-      </div>
+        <strong id="myCap">0<strong>
+      </div>/
 
       <div class="statLine">
         <span>🟢 FACTS</span>
@@ -1993,7 +2003,20 @@ window.addEventListener(
   }
 );
 
+  function startSoloOpinionSetup(){
+
+  showScreen("soloSetup");
+
+}
+
+function startSoloDuelSetup(){
+
+  showScreen("soloDuelSetup");
+
+  }
+  
 </script>
 
 </body>
   </html>
+
