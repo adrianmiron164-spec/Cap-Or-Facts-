@@ -1269,3 +1269,731 @@ input,select{
 
       <select
   id="language"
+
+      onchange="changeLanguage()">
+
+    <option value="en">English</option>
+    <option value="ro">Română</option>
+
+  </select>
+
+</div>
+
+<div class="settingsRow">
+
+  <span>App version</span>
+  <strong>1.0</strong>
+
+</div>
+
+<div class="version">
+  Cap Or Facts! v1.0
+</div>
+
+</div>
+
+</div>
+
+
+<div id="explore" class="screen">
+
+  <div class="card">
+
+    <div class="smallTitle">
+      🌎 Explore
+    </div>
+
+    <div id="publicServers">
+
+      <div class="empty">
+        No public servers available right now.
+      </div>
+
+    </div>
+
+    <button
+      class="backButton"
+      onclick="goHome()">
+      BACK
+    </button>
+
+  </div>
+
+</div>
+
+
+<div
+  id="plusMenu"
+  class="plusMenu">
+
+  <button onclick="showScreen('create');closePlus()">
+    Create Server
+  </button>
+
+  <button onclick="showScreen('join');closePlus()">
+    Join Server
+  </button>
+
+  <button onclick="startDuelSetup();closePlus()">
+    1V1 Duel
+  </button>
+
+</div>
+
+
+<div class="bottomNav">
+
+  <button
+    id="navHome"
+    class="navButton active"
+    onclick="goHome();setNav('home')">
+    <span class="navIcon">⌂</span>
+    Home
+  </button>
+
+  <button
+    id="navFriends"
+    class="navButton"
+    onclick="showScreen('friends');setNav('friends')">
+    <span class="navIcon">👥</span>
+    Friends
+  </button>
+
+  <button
+    class="floatingPlus"
+    onclick="togglePlus()">
+    +
+  </button>
+
+  <button
+    id="navDMs"
+    class="navButton"
+    onclick="showScreen('dms');setNav('dms')">
+    <span class="navIcon">💬</span>
+    DMs
+  </button>
+
+  <button
+    id="navSettings"
+    class="navButton"
+    onclick="showScreen('settings');setNav('settings')">
+    <span class="navIcon">⚙️</span>
+    Settings
+  </button>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+let currentMode = "main";
+let currentQuestion = 0;
+let totalQuestions = 10;
+let capVotes = 0;
+let factsVotes = 0;
+let myCap = 0;
+let myFacts = 0;
+let duelQuestion = 0;
+let duelTotal = 10;
+let duelScore = 0;
+let serverCodeValue = "";
+
+
+const questions = [
+  "Pineapple belongs on pizza.",
+  "Cereal is technically a soup.",
+  "Water tastes different depending on the container.",
+  "Summer is better than winter.",
+  "Chocolate belongs in the fridge.",
+  "Pizza is better cold.",
+  "Dogs are better than cats.",
+  "School should start later.",
+  "Rainy days are better than sunny days.",
+  "Breakfast is the best meal of the day."
+];
+
+
+const duelQuestions = [
+  {question:"The Earth is round.",answer:"facts"},
+  {question:"The Sun is a star.",answer:"facts"},
+  {question:"Humans can breathe underwater naturally.",answer:"cap"},
+  {question:"Water freezes at 0°C under normal conditions.",answer:"facts"},
+  {question:"Fish can naturally breathe air like humans.",answer:"cap"},
+  {question:"Lightning can strike the same place more than once.",answer:"facts"}
+];
+
+
+function showScreen(id){
+
+  document
+    .querySelectorAll(".screen")
+    .forEach(function(screen){
+      screen.classList.remove("active");
+    });
+
+  const target = document.getElementById(id);
+
+  if(target){
+    target.classList.add("active");
+  }
+}
+
+
+function goHome(){
+  showScreen("home");
+  setNav("home");
+}
+
+
+function selectMode(mode){
+
+  document
+    .getElementById("mainMode")
+    .classList.toggle("active",mode === "main");
+
+  document
+    .getElementById("duelMode")
+    .classList.toggle("active",mode === "duel");
+
+  document
+    .getElementById("mainHome")
+    .style.display =
+      mode === "main" ? "block" : "none";
+
+  document
+    .getElementById("duelHome")
+    .style.display =
+      mode === "duel" ? "block" : "none";
+}
+
+
+function setNav(name){
+
+  document
+    .querySelectorAll(".navButton")
+    .forEach(function(button){
+      button.classList.remove("active");
+    });
+
+  const id =
+    "nav" +
+    name.charAt(0).toUpperCase() +
+    name.slice(1);
+
+  const button =
+    document.getElementById(id);
+
+  if(button){
+    button.classList.add("active");
+  }
+}
+
+
+function togglePlus(){
+
+  document
+    .getElementById("plusMenu")
+    .classList.toggle("open");
+}
+
+
+function closePlus(){
+
+  document
+    .getElementById("plusMenu")
+    .classList.remove("open");
+}
+
+
+function createServer(){
+
+  const name =
+    document
+      .getElementById("serverName")
+      .value
+      .trim();
+
+  if(!name){
+    alert("Please enter a server name.");
+    return;
+  }
+
+  totalQuestions =
+    Number(
+      document
+        .getElementById("questionLimit")
+        .value
+    );
+
+  serverCodeValue =
+    Math.random()
+      .toString(36)
+      .substring(2,8)
+      .toUpperCase();
+
+  document
+    .getElementById("lobbyTitle")
+    .textContent = name;
+
+  document
+    .getElementById("serverCode")
+    .textContent =
+      serverCodeValue;
+
+  document
+    .getElementById("playersList")
+    .innerHTML =
+      "<div class='friendCard'>" +
+      "<strong>You</strong>" +
+      "<div class='status'>Online · HOST</div>" +
+      "</div>";
+
+  showScreen("lobby");
+}
+
+
+function joinServer(){
+
+  const code =
+    document
+      .getElementById("joinCode")
+      .value
+      .trim()
+      .toUpperCase();
+
+  if(!code){
+    alert("Enter an invite code.");
+    return;
+  }
+
+  document
+    .getElementById("serverCode")
+    .textContent = code;
+
+  document
+    .getElementById("lobbyTitle")
+    .textContent = "Joined Server";
+
+  showScreen("lobby");
+}
+
+
+function startMainGame(){
+
+  currentQuestion = 0;
+  capVotes = 0;
+  factsVotes = 0;
+  myCap = 0;
+  myFacts = 0;
+
+  document
+    .getElementById("voteArea")
+    .style.display = "grid";
+
+  document
+    .getElementById("gameResult")
+    .style.display = "none";
+
+  loadMainQuestion();
+
+  showScreen("game");
+}
+
+
+function loadMainQuestion(){
+
+  document
+    .getElementById("question")
+    .textContent =
+      questions[
+        currentQuestion %
+        questions.length
+      ];
+
+  document
+    .getElementById("questionNumber")
+    .textContent =
+      "Question " +
+      (currentQuestion + 1) +
+      " / " +
+      totalQuestions;
+}
+
+
+function voteMain(answer){
+
+  if(answer === "cap"){
+    capVotes++;
+    myCap++;
+  }else{
+    factsVotes++;
+    myFacts++;
+  }
+
+  document
+    .getElementById("voteArea")
+    .style.display = "none";
+
+  const total =
+    capVotes + factsVotes;
+
+  const capPercent =
+    Math.round(
+      capVotes / total * 100
+    );
+
+  const factsPercent =
+    100 - capPercent;
+
+  document
+    .getElementById("capResult")
+    .style.width =
+      capPercent + "%";
+
+  document
+    .getElementById("factsResult")
+    .style.width =
+      factsPercent + "%";
+
+  document
+    .getElementById("capResultText")
+    .textContent =
+      capPercent + "% CAP";
+
+  document
+    .getElementById("factsResultText")
+    .textContent =
+      factsPercent + "% FACTS";
+
+  document
+    .getElementById("gameResult")
+    .style.display = "block";
+}
+
+
+function nextMainQuestion(){
+
+  currentQuestion++;
+
+  if(currentQuestion >= totalQuestions){
+
+    document
+      .getElementById("finalCap")
+      .textContent = capVotes;
+
+    document
+      .getElementById("finalFacts")
+      .textContent = factsVotes;
+
+    document
+      .getElementById("finalWinner")
+      .textContent =
+        capVotes > factsVotes
+          ? "CAP WINS!"
+          : factsVotes > capVotes
+            ? "FACTS WINS!"
+            : "IT'S A TIE!";
+
+    showScreen("final");
+    return;
+  }
+
+  document
+    .getElementById("gameResult")
+    .style.display = "none";
+
+  document
+    .getElementById("voteArea")
+    .style.display = "grid";
+
+  loadMainQuestion();
+}
+
+
+function toggleStats(){
+
+  document
+    .getElementById("statsPanel")
+    .classList.toggle("show");
+}
+
+
+function leaveGame(){
+  goHome();
+}
+
+
+function confirmLeaveGame(){
+
+  if(confirm("Are you sure you want to leave the game?")){
+    goHome();
+  }
+}
+
+
+function copyInvite(){
+
+  const text =
+    "Hey, Lets Play CapOrFacts! Together? " +
+    "think u can predict my answers? " +
+    window.location.href;
+
+  if(navigator.clipboard){
+
+    navigator.clipboard
+      .writeText(text)
+      .then(function(){
+        alert("Invite link copied!");
+      });
+
+  }else{
+    alert(text);
+  }
+}
+
+
+function shareInvite(){
+
+  const text =
+    "Hey, Lets Play CapOrFacts! Together? " +
+    "think u can predict my answers?";
+
+  if(navigator.share){
+
+    navigator.share({
+      title:"Cap Or Facts!",
+      text:text,
+      url:window.location.href
+    });
+
+  }else{
+    copyInvite();
+  }
+}
+
+
+function showPublicServers(){
+  showScreen("explore");
+}
+
+
+function startDuelSetup(){
+  showScreen("duelSetup");
+}
+
+
+function startDuel(){
+
+  duelQuestion = 0;
+  duelScore = 0;
+
+  duelTotal =
+    Number(
+      document
+        .getElementById("duelQuestions")
+        .value
+    );
+
+  loadDuelQuestion();
+
+  showScreen("duel");
+}
+
+
+function loadDuelQuestion(){
+
+  const item =
+    duelQuestions[
+      duelQuestion %
+      duelQuestions.length
+    ];
+
+  document
+    .getElementById("duelQuestion")
+    .textContent =
+      item.question;
+
+  document
+    .getElementById("duelNumber")
+    .textContent =
+      "Duel " +
+      (duelQuestion + 1) +
+      " / " +
+      duelTotal;
+
+  document
+    .getElementById("duelResult")
+    .style.display = "none";
+}
+
+
+function answerDuel(answer){
+
+  const item =
+    duelQuestions[
+      duelQuestion %
+      duelQuestions.length
+    ];
+
+  if(answer === item.answer){
+    duelScore++;
+  }
+
+  document
+    .getElementById("duelCorrect")
+    .textContent =
+      answer === item.answer
+        ? "CORRECT!"
+        : "WRONG!";
+
+  document
+    .getElementById("duelScore")
+    .textContent =
+      duelScore;
+
+  document
+    .getElementById("duelResult")
+    .style.display = "block";
+}
+
+
+function nextDuelQuestion(){
+
+  duelQuestion++;
+
+  if(duelQuestion >= duelTotal){
+
+    alert(
+      "Duel finished! Score: " +
+      duelScore +
+      "/" +
+      duelTotal
+    );
+
+    goHome();
+    return;
+  }
+
+  loadDuelQuestion();
+}
+
+
+function rematch(){
+  startMainGame();
+}
+
+
+function sendFriendRequest(){
+
+  const input =
+    document
+      .getElementById("friendSearch");
+
+  if(!input.value.trim()){
+    alert("Enter a username.");
+    return;
+  }
+
+  alert(
+    "Friend request sent to " +
+    input.value.trim()
+  );
+
+  input.value = "";
+}
+
+
+function sendMessage(){
+
+  const input =
+    document
+      .getElementById("messageInput");
+
+  const text =
+    input.value.trim();
+
+  if(!text) return;
+
+  const message =
+    document.createElement("div");
+
+  message.className = "message me";
+
+  message.textContent = text;
+
+  document
+    .getElementById("messages")
+    .appendChild(message);
+
+  input.value = "";
+}
+
+
+function fakeCall(){
+  alert("Calling will be available with multiplayer.");
+}
+
+
+function attachFile(){
+  alert("File sharing will be added later.");
+}
+
+
+function emoji(){
+
+  const input =
+    document
+      .getElementById("messageInput");
+
+  input.value += " 😊";
+  input.focus();
+}
+
+
+function toggleTheme(){
+
+  const checkbox =
+    document
+      .getElementById("darkMode");
+
+  document
+    .body
+    .classList
+    .toggle(
+      "light",
+      !checkbox.checked
+    );
+}
+
+
+function changeLanguage(){
+
+  alert(
+    "More languages are coming later."
+  );
+}
+
+
+window.addEventListener(
+  "load",
+  function(){
+
+    if(
+      window.innerWidth > 700
+    ){
+
+      document
+        .getElementById("pcBlock")
+        .style.display = "flex";
+    }
+
+  }
+);
+
+</script>
+
+</body>
+  </html>
