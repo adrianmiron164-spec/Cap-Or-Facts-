@@ -2,1098 +2,1273 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>CapOrFacts</title>
 
 <style>
 *{box-sizing:border-box}
 
+:root{
+  --bg:#090b10;
+  --card:#151922;
+  --card2:#1c212d;
+  --text:#fff;
+  --muted:#8d96a8;
+  --border:#2b3240;
+  --cap:#ff4d5d;
+  --facts:#35d477;
+  --blue:#6372ff;
+  --yellow:#f4b942;
+}
+
+body.light{
+  --bg:#f4f6fa;
+  --card:#fff;
+  --card2:#eef1f6;
+  --text:#111827;
+  --muted:#667085;
+  --border:#d9dee8;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+}
+
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#0d0f17;
-color:white;
-min-height:100vh
+  min-height:100vh;
+  padding-bottom:82px;
 }
 
-.app{
-width:100%;
-max-width:520px;
-margin:auto;
-padding:25px
-}
-
-.logo{
-text-align:center;
-font-size:42px;
-font-weight:900;
-margin:20px 0 8px
-}
-
-.cap{color:#ff4d5a}
-.facts{color:#4ade80}
-
-.subtitle{
-text-align:center;
-color:#9ca3af;
-margin-bottom:25px
-}
-
-.language{margin-bottom:20px}
-
-select,input{
-width:100%;
-padding:14px;
-border-radius:12px;
-border:1px solid #343a4d;
-background:#0d0f17;
-color:white;
-font-size:16px;
-outline:none
-}
-
-.screen{display:none}
-.screen.active{display:block}
-
-.card{
-background:#171a26;
-border:1px solid #292e3d;
-border-radius:24px;
-padding:25px;
-box-shadow:0 15px 40px rgba(0,0,0,.3);
-margin-bottom:18px
+button,input,select{
+  font:inherit;
 }
 
 button{
-width:100%;
-border:0;
-cursor:pointer;
-color:white;
-font-size:17px;
-font-weight:800;
-border-radius:15px;
-padding:16px;
-margin-top:10px
+  border:0;
+  cursor:pointer;
 }
 
-button:active{transform:scale(.97)}
+#pcBlock{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:var(--bg);
+  color:var(--text);
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+}
 
-.create{background:#22c55e}
-.join{background:#ef4444}
-.primary{background:#5865f2}
-.secondary{background:#292e3d}
-.back{background:transparent;color:#9ca3af}
+.pcBox{
+  max-width:420px;
+}
 
-h2{text-align:center;margin-top:0}
+.pcIcon{
+  font-size:70px;
+  margin-bottom:15px;
+}
+
+.pcTitle{
+  font-size:28px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.pcText{
+  color:var(--muted);
+  line-height:1.5;
+}
+
+.app{
+  width:100%;
+  max-width:650px;
+  margin:auto;
+  padding:18px;
+}
+
+.screen{
+  display:none;
+}
+
+.screen.active{
+  display:block;
+}
+
+.logo{
+  text-align:center;
+  font-size:40px;
+  font-weight:1000;
+  margin:8px 0 3px;
+}
+
+.capText{color:var(--cap)}
+.factsText{color:var(--facts)}
+
+.subtitle{
+  text-align:center;
+  color:var(--muted);
+  margin-bottom:18px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:18px;
+  margin-bottom:14px;
+}
+
+.modeBar{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:5px;
+  border-radius:16px;
+  margin-bottom:15px;
+}
+
+.mode{
+  padding:13px 5px;
+  text-align:center;
+  border-radius:12px;
+  font-weight:900;
+  color:var(--muted);
+  cursor:pointer;
+}
+
+.mode.active{
+  background:var(--card2);
+  color:var(--text);
+}
+
+.homeButtons{
+  display:grid;
+  gap:10px;
+}
+
+.bigButton{
+  min-height:75px;
+  border-radius:18px;
+  color:#fff;
+  font-weight:900;
+  font-size:17px;
+}
+
+.green{background:#20bd69}
+.red{background:#ec4657}
+.blue{background:#5c6cf3}
+.yellow{background:#e8a928}
+.dark{background:var(--card2);color:var(--text)}
 
 label{
-display:block;
-color:#aab1c2;
-font-size:14px;
-margin-top:18px;
-margin-bottom:7px
+  display:block;
+  color:var(--muted);
+  font-size:13px;
+  margin:14px 0 6px;
 }
 
-.option-row{
-display:flex;
-gap:10px
+input,select{
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--card2);
+  color:var(--text);
+  outline:none;
 }
 
-.option{
-flex:1;
-padding:14px;
-background:#0d0f17;
-border:2px solid #292e3d;
-border-radius:12px;
-text-align:center;
-cursor:pointer;
-font-weight:bold
+.primaryButton{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border-radius:13px;
+  background:var(--blue);
+  color:#fff;
+  font-weight:900;
 }
 
-.option.selected{
-border-color:#5865f2;
-background:#20243a
+.backButton{
+  width:100%;
+  padding:13px;
+  margin-top:8px;
+  border-radius:13px;
+  background:transparent;
+  color:var(--muted);
 }
 
-.code{
-text-align:center;
-font-size:36px;
-font-weight:900;
-letter-spacing:7px;
-color:#4ade80;
-margin:20px 0
+.smallTitle{
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:15px;
 }
 
-.player{
-display:flex;
-justify-content:space-between;
-background:#0d0f17;
-padding:13px;
-border-radius:12px;
-margin-top:8px
+.friendSearch{
+  margin-bottom:10px;
 }
 
-.waiting{
-text-align:center;
-color:#9ca3af;
-margin:20px 0
+.friendCard,.requestCard,.dmCard{
+  background:var(--card2);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:13px;
+  margin-top:9px;
 }
 
-.question-number{
-text-align:center;
-color:#8b93a7;
-font-size:14px;
-margin-bottom:20px
+.friendLine{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.friendName{
+  font-weight:900;
+}
+
+.status{
+  font-size:12px;
+  color:var(--facts);
+}
+
+.status.offline{
+  color:var(--muted);
+}
+
+.smallButton{
+  padding:9px 12px;
+  border-radius:10px;
+  color:#fff;
+  background:var(--blue);
+  font-weight:800;
+}
+
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:28px 10px;
+}
+
+.plusMenu{
+  display:none;
+  position:fixed;
+  left:50%;
+  bottom:78px;
+  transform:translateX(-50%);
+  width:min(330px,90%);
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:12px;
+  z-index:500;
+  box-shadow:0 15px 40px rgba(0,0,0,.45);
+}
+
+.plusMenu.open{
+  display:block;
+}
+
+.plusMenu button{
+  width:100%;
+  padding:15px;
+  margin:4px 0;
+  border-radius:13px;
+  background:var(--card2);
+  color:var(--text);
+  font-weight:900;
+}
+
+.chatHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.callButton{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:var(--facts);
+  color:#fff;
+  font-size:19px;
+}
+
+.messages{
+  min-height:350px;
+  max-height:55vh;
+  overflow-y:auto;
+  padding:10px 0;
+}
+
+.message{
+  max-width:78%;
+  padding:10px 12px;
+  border-radius:15px;
+  margin:7px 0;
+  background:var(--card2);
+}
+
+.message.me{
+  margin-left:auto;
+  background:var(--blue);
+  color:#fff;
+}
+
+.time{
+  display:block;
+  font-size:10px;
+  opacity:.65;
+  margin-top:4px;
+}
+
+.chatBar{
+  display:grid;
+  grid-template-columns:42px 1fr 42px 45px;
+  gap:6px;
+  align-items:center;
+}
+
+.circleButton{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:var(--card2);
+  color:var(--text);
+  font-size:20px;
+}
+
+.sendButton{
+  width:45px;
+  height:42px;
+  border-radius:12px;
+  background:var(--blue);
+  color:#fff;
+}
+
+.settingsRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.version{
+  text-align:center;
+  color:var(--muted);
+  margin-top:20px;
+}
+
+.questionTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.questionNumber{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.statsButton{
+  padding:9px 11px;
+  border-radius:10px;
+  background:var(--card2);
+  color:var(--text);
+  font-weight:800;
 }
 
 .question{
-text-align:center;
-font-size:26px;
-line-height:1.35;
-font-weight:800;
-margin-bottom:30px
+  font-size:25px;
+  line-height:1.35;
+  font-weight:900;
+  text-align:center;
+  margin:30px 5px;
 }
 
-.vote-buttons{
-display:flex;
-gap:12px
+.voteGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
 
-.vote-buttons button{flex:1}
-
-.cap-button{background:#ef4444}
-.facts-button{background:#22c55e}
-
-.results{
-display:none;
-margin-top:25px
+.voteButton{
+  padding:20px 10px;
+  border-radius:17px;
+  color:#fff;
+  font-size:20px;
+  font-weight:1000;
 }
 
-.result-title{
-text-align:center;
-font-size:22px;
-font-weight:900;
-margin-bottom:20px
+.voteCap{background:var(--cap)}
+.voteFacts{background:var(--facts)}
+
+.resultBar{
+  height:25px;
+  display:flex;
+  overflow:hidden;
+  border-radius:20px;
+  background:var(--card2);
 }
 
-.bar{
-height:25px;
-display:flex;
-border-radius:20px;
-overflow:hidden;
-background:#292e3d
+.resultCap{background:var(--cap)}
+.resultFacts{background:var(--facts)}
+
+.resultNumbers{
+  display:flex;
+  justify-content:space-between;
+  margin-top:9px;
+  font-weight:900;
 }
 
-.cap-bar{background:#ef4444}
-.facts-bar{background:#22c55e}
-
-.percentages{
-display:flex;
-justify-content:space-between;
-margin-top:10px;
-font-weight:bold
+.finalWinner{
+  text-align:center;
+  font-size:30px;
+  font-weight:1000;
+  margin:25px 0;
 }
 
-.score{
-text-align:center;
-color:#aab1c2;
-margin-top:25px
+.code{
+  text-align:center;
+  font-size:35px;
+  letter-spacing:6px;
+  font-weight:1000;
+  color:var(--facts);
+  margin:18px 0;
 }
 
-.score strong{
-color:white;
-font-size:20px
+.inviteBox{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
 }
 
-.error{
-color:#ff6b6b;
-text-align:center;
-margin-top:10px;
-display:none
+.supportGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
 }
 
-.footer{
-text-align:center;
-color:#5f6678;
-font-size:13px;
-margin-top:25px
+.supportButton{
+  padding:17px 4px;
+  border-radius:13px;
+  background:var(--card2);
+  color:var(--text);
+  font-weight:900;
+}
+
+.customArea{
+  display:none;
+  margin-top:12px;
+}
+
+.customArea.show{
+  display:block;
+}
+
+.warning{
+  text-align:center;
+  color:var(--yellow);
+  font-size:13px;
+  margin-top:13px;
+}
+
+.leaveButton{
+  background:var(--card2);
+  color:var(--text);
+  width:100%;
+  padding:13px;
+  border-radius:13px;
+  margin-top:10px;
+}
+
+.statsPanel{
+  display:none;
+  margin-top:10px;
+  background:var(--card2);
+  border-radius:15px;
+  padding:15px;
+}
+
+.statsPanel.show{
+  display:block;
+}
+
+.statLine{
+  display:flex;
+  justify-content:space-between;
+  padding:7px 0;
+}
+
+.bottomNav{
+  position:fixed;
+  z-index:400;
+  bottom:0;
+  left:0;
+  right:0;
+  height:68px;
+  background:var(--card);
+  border-top:1px solid var(--border);
+  display:grid;
+  grid-template-columns:1fr 1fr 70px 1fr 1fr;
+  align-items:center;
+}
+
+.navButton{
+  height:100%;
+  background:transparent;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:900;
+}
+
+.navButton.active{
+  color:var(--text);
+}
+
+.navIcon{
+  display:block;
+  font-size:21px;
+  margin-bottom:2px;
+}
+
+.floatingPlus{
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  background:var(--blue);
+  color:#fff;
+  font-size:29px;
+  font-weight:900;
+  margin:auto;
+  box-shadow:0 6px 20px rgba(0,0,0,.35);
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:88px;
+  transform:translateX(-50%);
+  background:#111827;
+  color:#fff;
+  padding:12px 17px;
+  border-radius:12px;
+  display:none;
+  z-index:1000;
+  max-width:90%;
+  text-align:center;
+}
+
+.toast.show{
+  display:block;
+}
+
+@media(max-width:700px){
+  #pcBlock{
+    display:none;
+  }
+}
+
+@media(min-width:701px){
+  #pcBlock{
+    display:flex;
+  }
+
+  .app,
+  .bottomNav,
+  .plusMenu,
+  .toast{
+    display:none!important;
+  }
+
+  body{
+    overflow:hidden;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<div id="pcBlock">
+  <div class="pcBox">
+    <div class="pcIcon">📱</div>
+    <div class="pcTitle">CapOrFacts is mobile-only</div>
+    <div class="pcText">
+      This version of CapOrFacts is designed for phones and tablets.
+      Please open the website on a mobile device to play.
+    </div>
+  </div>
+</div>
+
+
 <div class="app">
 
-<div class="logo">
-<span class="cap">Cap</span><span class="facts">OrFacts</span>
-</div>
-
-<div class="subtitle" id="subtitle">
-Your opinion. Everyone decides.
-</div>
-
-<div class="language">
-<select id="languageSelect" onchange="changeLanguage(this.value)">
-<option value="en">English</option>
-<option value="ro">Română</option>
-<option value="fr">Français</option>
-<option value="de">Deutsch</option>
-<option value="es">Español</option>
-<option value="it">Italiano</option>
-<option value="pt">Português</option>
-<option value="nl">Nederlands</option>
-<option value="pl">Polski</option>
-<option value="uk">Українська</option>
-<option value="ru">Русский</option>
-<option value="el">Ελληνικά</option>
-<option value="sv">Svenska</option>
-<option value="no">Norsk</option>
-<option value="da">Dansk</option>
-<option value="fi">Suomi</option>
-<option value="cs">Čeština</option>
-<option value="sk">Slovenčina</option>
-<option value="hu">Magyar</option>
-<option value="bg">Български</option>
-<option value="sr">Српски</option>
-<option value="hr">Hrvatski</option>
-<option value="sl">Slovenščina</option>
-<option value="bs">Bosanski</option>
-<option value="sq">Shqip</option>
-<option value="mk">Македонски</option>
-<option value="et">Eesti</option>
-<option value="lv">Latviešu</option>
-<option value="lt">Lietuvių</option>
-<option value="is">Íslenska</option>
-<option value="ga">Gaeilge</option>
-<option value="cy">Cymraeg</option>
-<option value="mt">Malti</option>
-<option value="tr">Türkçe</option>
-<option value="fil">Filipino</option>
-<option value="th">ไทย</option>
-<option value="ja">日本語</option>
-<option value="ko">한국어</option>
-<option value="hi">हिन्दी</option>
-<option value="id">Bahasa Indonesia</option>
-<option value="zh">简体中文</option>
-<option value="mn">Монгол</option>
-<option value="zh-TW">繁體中文</option>
-<option value="vi">Tiếng Việt</option>
-<option value="fa">فارسی</option>
-<option value="he">עברית</option>
-<option value="ar">العربية</option>
-<option value="en-CA">English (Canada)</option>
-<option value="es-MX">Español (México)</option>
-<option value="ar-SA">العربية (السعودية)</option>
-<option value="ar-IQ">العربية (العراق)</option>
-<option value="ar-JO">العربية (الأردن)</option>
-<option value="ar-PS">العربية (فلسطين)</option>
-<option value="ar-YE">العربية (اليمن)</option>
-<option value="de-AT">Deutsch (Österreich)</option>
-<option value="de-CH">Deutsch (Schweiz)</option>
-<option value="fr-CA">Français (Canada)</option>
-<option value="pt-BR">Português (Brasil)</option>
-<option value="es-AR">Español (Argentina)</option>
-<option value="es-CL">Español (Chile)</option>
-<option value="it-CH">Italiano (Svizzera)</option>
-</select>
-</div>
-
-
-<!-- HOME -->
-
 <div id="home" class="screen active">
-<div class="card">
 
-<h2 id="welcome">Welcome</h2>
+  <div class="logo">
+    <span class="capText">Cap</span><span class="factsText">OrFacts</span>
+  </div>
 
-<button class="create"
-onclick="showScreen('create')"
-id="createButton">
-CREATE SERVER
-</button>
+  <div class="subtitle">
+    Your opinion. Everyone decides.
+  </div>
 
-<button class="join"
-onclick="showScreen('join')"
-id="joinButton">
-JOIN SERVER
-</button>
+  <div class="modeBar">
+
+    <div
+      id="mainMode"
+      class="mode active"
+      onclick="selectMode('main')">
+      MAIN GAME
+    </div>
+
+    <div
+      id="duelMode"
+      class="mode"
+      onclick="selectMode('duel')">
+      1V1 DUEL
+    </div>
+
+  </div>
+
+  <div id="mainHome">
+
+    <div class="card">
+      <div class="smallTitle">Play CapOrFacts</div>
+
+      <div class="homeButtons">
+
+        <button
+          class="bigButton green"
+          onclick="showScreen('create')">
+          CREATE SERVER
+        </button>
+
+        <button
+          id="joinHome"
+          class="bigButton red"
+          onclick="showScreen('join')">
+          JOIN SERVER
+        </button>
+
+        <button
+          class="bigButton blue"
+          onclick="showPublicServers()">
+          EXPLORE SERVERS
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <div id="duelHome" style="display:none">
+
+    <div class="card">
+
+      <div class="smallTitle">
+        ⚔️ 1V1 Duel
+      </div>
+
+      <p style="color:var(--muted);line-height:1.5">
+        Challenge one friend to a real Cap-or-Facts battle.
+        Unlike the Main Game, Duel questions have actual answers.
+      </p>
+
+      <button
+        class="primaryButton"
+        onclick="startDuelSetup()">
+        CHALLENGE A FRIEND
+      </button>
+
+    </div>
+
+  </div>
 
 </div>
-</div>
 
-
-<!-- CREATE SERVER -->
 
 <div id="create" class="screen">
-<div class="card">
 
-<h2 id="createTitle">Create Server</h2>
+  <div class="card">
 
-<label id="serverNameLabel">Server name</label>
+    <div class="smallTitle">Create Server</div>
 
-<input
-id="serverName"
-maxlength="25"
-placeholder="My CapOrFacts Server"
->
+    <label>Server name</label>
 
-<label id="playerLimitLabel">Maximum players</label>
+    <input
+      id="serverName"
+      maxlength="25"
+      placeholder="My Server">
 
-<select id="playerLimit">
-<option value="3">3 players</option>
-<option value="4">4 players</option>
-<option value="5">5 players</option>
-<option value="6">6 players</option>
-<option value="7">7 players</option>
-<option value="8">8 players</option>
-<option value="9">9 players</option>
-<option value="10">10 players</option>
-</select>
+    <label>Players</label>
 
-<label id="serverTypeLabel">Server type</label>
+    <select id="playerLimit">
+      <option value="3">3 players</option>
+      <option value="4">4 players</option>
+      <option value="5">5 players</option>
+      <option value="6">6 players</option>
+      <option value="7">7 players</option>
+      <option value="8">8 players</option>
+      <option value="9">9 players</option>
+      <option value="10">10 players</option>
+    </select>
 
-<div class="option-row">
+    <label>Questions</label>
 
-<div
-id="publicOption"
-class="option selected"
-onclick="setServerType('public')">
-PUBLIC
+    <select id="questionLimit">
+      <option value="5">5 questions</option>
+      <option value="10">10 questions</option>
+      <option value="20">20 questions</option>
+      <option value="30">30 questions</option>
+      <option value="50">50 questions</option>
+      <option value="75">75 questions</option>
+      <option value="100">100 questions</option>
+    </select>
+
+    <label>Server type</label>
+
+    <select id="serverType">
+      <option value="public">Public</option>
+      <option value="friends">Friends only</option>
+      <option value="private">Private</option>
+    </select>
+
+    <button
+      class="primaryButton"
+      onclick="createServer()">
+      CREATE SERVER
+    </button>
+
+    <button
+      class="backButton"
+      onclick="goHome()">
+      BACK
+    </button>
+
+  </div>
+
 </div>
 
-<div
-id="privateOption"
-class="option"
-onclick="setServerType('private')">
-PRIVATE
-</div>
-
-</div>
-
-<button
-class="create"
-onclick="createServer()"
-id="createServerButton">
-CREATE SERVER
-</button>
-
-<button
-class="back"
-onclick="showScreen('home')"
-id="backCreate">
-BACK
-</button>
-
-</div>
-</div>
-
-
-<!-- JOIN SERVER -->
 
 <div id="join" class="screen">
-<div class="card">
 
-<h2 id="joinTitle">Join Server</h2>
+  <div class="card">
 
-<label id="inviteLabel">Invite code</label>
+    <div class="smallTitle">Join Server</div>
 
-<input
-id="joinCode"
-maxlength="6"
-placeholder="ABC123"
-style="text-transform:uppercase"
->
+    <label>Invite code</label>
 
-<button
-class="join"
-onclick="joinServer()"
-id="joinServerButton">
-JOIN SERVER
-</button>
+    <input
+      id="joinCode"
+      maxlength="6"
+      placeholder="ABC123"
+      style="text-transform:uppercase">
 
-<div id="joinError" class="error">
-Invalid invite code.
-</div>
+    <button
+      class="primaryButton"
+      onclick="joinServer()">
+      JOIN SERVER
+    </button>
 
-<button
-class="back"
-onclick="showScreen('home')"
-id="backJoin">
-BACK
-</button>
+    <button
+      class="backButton"
+      onclick="goHome()">
+      BACK
+    </button>
+
+  </div>
 
 </div>
-</div>
 
-
-<!-- LOBBY -->
 
 <div id="lobby" class="screen">
-<div class="card">
 
-<h2 id="lobbyName">Server</h2>
+  <div class="card">
 
-<div class="waiting" id="inviteText">
-Invite code
+    <div class="smallTitle" id="lobbyTitle">
+      Server
+    </div>
+
+    <div style="text-align:center;color:var(--muted)">
+      Invite code
+    </div>
+
+    <div id="serverCode" class="code">
+      ABC123
+    </div>
+
+    <div class="inviteBox">
+
+      <button
+        class="primaryButton"
+        onclick="copyInvite()">
+        COPY LINK
+      </button>
+
+      <button
+        class="primaryButton"
+        onclick="shareInvite()">
+        SHARE
+      </button>
+
+    </div>
+
+    <div id="playersList" style="margin-top:15px"></div>
+
+    <button
+      class="primaryButton"
+      onclick="startMainGame()">
+      START GAME
+    </button>
+
+    <button
+      class="leaveButton"
+      onclick="leaveGame()">
+      LEAVE SERVER
+    </button>
+
+  </div>
+
 </div>
 
-<div id="inviteCode" class="code">
-ABC123
-</div>
-
-<div class="waiting" id="shareText">
-Share this code with your friends.
-</div>
-
-<div id="fakePlayers"></div>
-
-<div class="waiting" id="lobbyStatus">
-Waiting for players...
-</div>
-
-<button
-id="startButton"
-class="primary"
-onclick="startGame()">
-START GAME
-</button>
-
-<button
-class="back"
-onclick="showScreen('home')"
-id="leaveButton">
-LEAVE SERVER
-</button>
-
-</div>
-</div>
-
-
-<!-- GAME -->
 
 <div id="game" class="screen">
-<div class="card">
 
-<div class="question-number" id="questionNumber">
-Question 1
+  <div class="card">
+
+    <div class="questionTop">
+
+      <div
+        id="questionNumber"
+        class="questionNumber">
+        Question 1 / 10
+      </div>
+
+      <button
+        class="statsButton"
+        onclick="toggleStats()">
+        CAPS & FACTS
+      </button>
+
+    </div>
+
+    <div id="statsPanel" class="statsPanel">
+
+      <div class="statLine">
+        <span>🔴 CAP</span>
+        <strong id="myCap">0</strong>
+      </div>
+
+      <div class="statLine">
+        <span>🟢 FACTS</span>
+        <strong id="myFacts">0</strong>
+      </div>
+
+      <div class="statLine">
+        <span>Total</span>
+        <strong id="myTotal">0</strong>
+      </div>
+
+    </div>
+
+    <div
+      id="question"
+      class="question">
+      Loading...
+    </div>
+
+    <div id="voteArea" class="voteGrid">
+
+      <button
+        class="voteButton voteCap"
+        onclick="voteMain('cap')">
+        CAP
+      </button>
+
+      <button
+        class="voteButton voteFacts"
+        onclick="voteMain('facts')">
+        FACTS
+      </button>
+
+    </div>
+
+    <div id="gameResult" style="display:none">
+
+      <div
+        id="roundWinner"
+        class="smallTitle"
+        style="text-align:center">
+        RESULTS
+      </div>
+
+      <div class="resultBar">
+
+        <div
+          id="capResult"
+          class="resultCap"
+          style="width:50%">
+        </div>
+
+        <div
+          id="factsResult"
+          class="resultFacts"
+          style="width:50%">
+        </div>
+
+      </div>
+
+      <div class="resultNumbers">
+
+        <span id="capResultText">
+          50% CAP
+        </span>
+
+        <span id="factsResultText">
+          50% FACTS
+        </span>
+
+      </div>
+
+      <button
+        class="primaryButton"
+        onclick="nextMainQuestion()">
+        NEXT QUESTION
+      </button>
+
+    </div>
+
+    <button
+      class="leaveButton"
+      onclick="confirmLeaveGame()">
+      LEAVE GAME
+    </button>
+
+  </div>
+
 </div>
 
-<div class="question" id="question">
-Pizza is better than burgers.
-</div>
 
-<div id="voteButtons" class="vote-buttons">
+<div id="final" class="screen">
 
-<button
-class="cap-button"
-onclick="vote('cap')"
-id="capButton">
-CAP
-</button>
+  <div class="card">
 
-<button
-class="facts-button"
-onclick="vote('facts')"
-id="factsButton">
-FACTS
-</button>
+    <div class="smallTitle" style="text-align:center">
+      FINAL RESULTS
+    </div>
 
-</div>
+    <div class="finalWinner" id="finalWinner">
+      FACTS WINS!
+    </div>
 
-<div id="results" class="results">
+    <div class="statLine">
+      <span>🔴 Total CAP votes</span>
+      <strong id="finalCap">0</strong>
+    </div>
 
-<div id="winner" class="result-title">
-RESULTS
-</div>
+    <div class="statLine">
+      <span>🟢 Total FACTS votes</span>
+      <strong id="finalFacts">0</strong>
+    </div>
 
-<div class="bar">
+    <button
+      class="primaryButton"
+      onclick="goHome()">
+      BACK TO HOME
+    </button>
 
-<div
-id="capBar"
-class="cap-bar"
-style="width:50%">
-</div>
+    <button
+      class="primaryButton"
+      onclick="rematch()">
+      REMATCH
+    </button>
 
-<div
-id="factsBar"
-class="facts-bar"
-style="width:50%">
-</div>
-
-</div>
-
-<div class="percentages">
-
-<span id="capPercent">50% CAP</span>
-<span id="factsPercent">50% FACTS</span>
-
-</div>
-
-<button
-class="primary"
-onclick="nextQuestion()"
-id="nextButton">
-NEXT QUESTION
-</button>
-
-</div>
-
-<div class="score">
-
-<span id="scoreText">Score:</span>
-
-<strong id="score">0</strong>
-
-</div>
-
-</div>
-</div>
-
-
-<div class="footer">
-CapOrFacts — Your opinion matters.
-</div>
+  </div>
 
 </div>
 
 
-<script>
-
-/* =========================
-   QUESTIONS
-========================= */
-
-const questions=[
-"Pizza is better than burgers.",
-"Summer is better than winter.",
-"Minecraft is better than Fortnite.",
-"The weekend should have three days.",
-"Cats are better than dogs.",
-"Horror movies are better at night.",
-"Homemade food is better than fast food.",
-"Sleeping late is better than waking up early.",
-"Video games are more fun than sports.",
-"Pineapple belongs on pizza.",
-"Beach vacations are better than mountain vacations.",
-"School should start later.",
-"Movies are better than TV shows.",
-"Staying home is more fun than going out.",
-"Candy is better than chips.",
-"Night walks are better than daytime walks.",
-"Music sounds better with headphones.",
-"Burgers are better than pizza.",
-"Multiplayer games are better than single-player games.",
-"Everyone should get one extra day off every week."
-];
-
-
-/* =========================
-   TRANSLATIONS
-========================= */
-
-const translations={
-
-en:{
-subtitle:"Your opinion. Everyone decides.",
-welcome:"Welcome",
-create:"CREATE SERVER",
-join:"JOIN SERVER",
-createTitle:"Create Server",
-serverName:"Server name",
-playerLimit:"Maximum players",
-serverType:"Server type",
-public:"PUBLIC",
-private:"PRIVATE",
-back:"BACK",
-invite:"Invite code",
-createServer:"CREATE SERVER",
-joinServer:"JOIN SERVER",
-lobbyInvite:"Invite code",
-share:"Share this code with your friends.",
-waiting:"Waiting for players...",
-start:"START GAME",
-leave:"LEAVE SERVER",
-question:"Question",
-next:"NEXT QUESTION",
-score:"Score:",
-invalid:"Invalid invite code."
-},
-
-ro:{
-subtitle:"Tu alegi. Majoritatea decide.",
-welcome:"Bine ai venit",
-create:"CREEAZĂ SERVER",
-join:"INTRĂ ÎN SERVER",
-createTitle:"Creează server",
-serverName:"Numele serverului",
-playerLimit:"Număr maxim de jucători",
-serverType:"Tipul serverului",
-public:"PUBLIC",
-private:"PRIVAT",
-back:"ÎNAPOI",
-invite:"Cod de invitație",
-createServer:"CREEAZĂ SERVER",
-joinServer:"INTRĂ ÎN SERVER",
-lobbyInvite:"Cod de invitație",
-share:"Trimite acest cod prietenilor tăi.",
-waiting:"Se așteaptă jucători...",
-start:"ÎNCEPE JOCUL",
-leave:"IEȘI DIN SERVER",
-question:"Întrebarea",
-next:"URMĂTOAREA",
-score:"Scor:",
-invalid:"Cod de invitație invalid."
-},
-
-fr:{
-subtitle:"Ton opinion. Tout le monde décide.",
-welcome:"Bienvenue",
-create:"CRÉER UN SERVEUR",
-join:"REJOINDRE",
-createTitle:"Créer un serveur",
-serverName:"Nom du serveur",
-playerLimit:"Nombre maximum de joueurs",
-serverType:"Type de serveur",
-public:"PUBLIC",
-private:"PRIVÉ",
-back:"RETOUR",
-invite:"Code d'invitation",
-createServer:"CRÉER LE SERVEUR",
-joinServer:"REJOINDRE",
-lobbyInvite:"Code d'invitation",
-share:"Partage ce code avec tes amis.",
-waiting:"En attente des joueurs...",
-start:"COMMENCER",
-leave:"QUITTER",
-question:"Question",
-next:"QUESTION SUIVANTE",
-score:"Score:",
-invalid:"Code invalide."
-},
-
-de:{
-subtitle:"Deine Meinung. Die Mehrheit entscheidet.",
-welcome:"Willkommen",
-create:"SERVER ERSTELLEN",
-join:"SERVER BEITRETEN",
-createTitle:"Server erstellen",
-serverName:"Servername",
-playerLimit:"Maximale Spieler",
-serverType:"Servertyp",
-public:"ÖFFENTLICH",
-private:"PRIVAT",
-back:"ZURÜCK",
-invite:"Einladungscode",
-createServer:"SERVER ERSTELLEN",
-joinServer:"BEITRETEN",
-lobbyInvite:"Einladungscode",
-share:"Teile diesen Code mit deinen Freunden.",
-waiting:"Warte auf Spieler...",
-start:"SPIEL STARTEN",
-leave:"SERVER VERLASSEN",
-question:"Frage",
-next:"NÄCHSTE FRAGE",
-score:"Punktestand:",
-invalid:"Ungültiger Code."
-},
-
-es:{
-subtitle:"Tu opinión. La mayoría decide.",
-welcome:"Bienvenido",
-create:"CREAR SERVIDOR",
-join:"UNIRSE AL SERVIDOR",
-createTitle:"Crear servidor",
-serverName:"Nombre del servidor",
-playerLimit:"Máximo de jugadores",
-serverType:"Tipo de servidor",
-public:"PÚBLICO",
-private:"PRIVADO",
-back:"ATRÁS",
-invite:"Código de invitación",
-createServer:"CREAR SERVIDOR",
-joinServer:"UNIRSE",
-lobbyInvite:"Código de invitación",
-share:"Comparte este código con tus amigos.",
-waiting:"Esperando jugadores...",
-start:"EMPEZAR",
-leave:"SALIR",
-question:"Pregunta",
-next:"SIGUIENTE PREGUNTA",
-score:"Puntuación:",
-invalid:"Código inválido."
-}
-
-};
-
-
-/* =========================
-   SCREEN NAVIGATION
-========================= */
-
-function showScreen(name){
-
-document
-.querySelectorAll(".screen")
-.forEach(screen=>{
-screen.classList.remove("active");
-});
-
-const screen=document.getElementById(name);
-
-if(screen){
-screen.classList.add("active");
-}
-
-}
-
-
-/* =========================
-   LANGUAGE
-========================= */
-
-function changeLanguage(lang){
+<div id="duelSetup" class="screen">
 
-localStorage.setItem("capor_language",lang);
-applyLanguage();
+  <div class="card">
 
-}
+    <div class="smallTitle">
+      ⚔️ Start Duel
+    </div>
 
-function applyLanguage(){
+    <label>Friend</label>
 
-const lang=
-localStorage.getItem("capor_language")||"en";
-
-const t=
-translations[lang]||translations.en;
+    <select id="duelFriend">
+      <option>Alex</option>
+      <option>Sam</option>
+      <option>Jordan</option>
+    </select>
 
-document.getElementById("subtitle").textContent=t.subtitle;
-document.getElementById("welcome").textContent=t.welcome;
+    <label>Questions</label>
 
-document.getElementById("createButton").textContent=t.create;
-document.getElementById("joinButton").textContent=t.join;
+    <select id="duelQuestions">
+      <option value="5">5 questions</option>
+      <option value="10">10 questions</option>
+      <option value="20">20 questions</option>
+      <option value="50">50 questions</option>
+      <option value="100">100 questions</option>
+    </select>
 
-document.getElementById("createTitle").textContent=t.createTitle;
-document.getElementById("serverNameLabel").textContent=t.serverName;
-document.getElementById("playerLimitLabel").textContent=t.playerLimit;
-document.getElementById("serverTypeLabel").textContent=t.serverType;
+    <button
+      class="primaryButton"
+      onclick="startDuel()">
+      START DUEL
+    </button>
 
-document.getElementById("publicOption").textContent=t.public;
-document.getElementById("privateOption").textContent=t.private;
+    <button
+      class="backButton"
+      onclick="goHome()">
+      BACK
+    </button>
 
-document.getElementById("createServerButton").textContent=t.createServer;
-document.getElementById("joinServerButton").textContent=t.joinServer;
+  </div>
 
-document.getElementById("backCreate").textContent=t.back;
-document.getElementById("backJoin").textContent=t.back;
+</div>
 
-document.getElementById("joinTitle").textContent=t.join;
-document.getElementById("inviteLabel").textContent=t.invite;
 
-document.getElementById("inviteText").textContent=t.lobbyInvite;
-document.getElementById("shareText").textContent=t.share;
+<div id="duel" class="screen">
 
-document.getElementById("lobbyStatus").textContent=t.waiting;
+  <div class="card">
 
-document.getElementById("startButton").textContent=t.start;
-document.getElementById("leaveButton").textContent=t.leave;
-document.getElementById("nextButton").textContent=t.next;
+    <div class="questionTop">
 
-document.getElementById("scoreText").textContent=t.score;
-document.getElementById("joinError").textContent=t.invalid;
+      <div
+        id="duelNumber"
+        class="questionNumber">
+        Duel 1 / 10
+      </div>
 
-}
+      <strong>
+        ⚔️ DUEL
+      </strong>
 
+    </div>
 
-/* =========================
-   SERVER
-========================= */
+    <div
+      id="duelQuestion"
+      class="question">
+      Loading...
+    </div>
 
-let serverType="public";
-let currentServerCode="";
+    <div class="voteGrid">
 
-function setServerType(type){
+      <button
+        class="voteButton voteCap"
+        onclick="answerDuel('cap')">
+        CAP
+      </button>
 
-serverType=type;
+      <button
+        class="voteButton voteFacts"
+        onclick="answerDuel('facts')">
+        FACTS
+      </button>
 
-document
-.getElementById("publicOption")
-.classList.toggle(
-"selected",
-type==="public"
-);
+    </div>
 
-document
-.getElementById("privateOption")
-.classList.toggle(
-"selected",
-type==="private"
-);
+    <div
+      id="duelResult"
+      style="display:none;text-align:center;margin-top:20px">
 
-}
+      <div
+        id="duelCorrect"
+        class="smallTitle">
+        CORRECT!
+      </div>
 
+      <div>
+        Your score:
+        <strong id="duelScore">
+          0
+        </strong>
+      </div>
 
-function generateCode(){
+      <button
+        class="primaryButton"
+        onclick="nextDuelQuestion()">
+        NEXT
+      </button>
 
-const chars=
-"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    </div>
 
-let code="";
+    <button
+      class="leaveButton"
+      onclick="goHome()">
+      LEAVE DUEL
+    </button>
 
-for(let i=0;i<6;i++){
+  </div>
 
-code+=chars[
-Math.floor(Math.random()*chars.length)
-];
+</div>
 
-}
 
-return code;
+<div id="friends" class="screen">
 
-}
+  <div class="card">
 
+    <div class="smallTitle">
+      👥 Friends
+    </div>
 
-function createServer(){
+    <input
+      class="friendSearch"
+      id="friendSearch"
+      placeholder="Add friends by username...">
 
-let name=
-document.getElementById("serverName")
-.value
-.trim();
+    <button
+      class="primaryButton"
+      onclick="sendFriendRequest()">
+      ADD FRIEND
+    </button>
 
-if(!name){
-name="CapOrFacts Server";
-}
+    <div class="smallTitle" style="font-size:17px;margin-top:22px">
+      Friend Requests
+    </div>
 
-const limit=
-Number(
-document.getElementById("playerLimit").value
-);
+    <div id="requests"></div>
 
-currentServerCode=generateCode();
+    <div class="smallTitle" style="font-size:17px;margin-top:22px">
+      My Friends
+    </div>
 
-document.getElementById("lobbyName").textContent=name;
-document.getElementById("inviteCode").textContent=currentServerCode;
+    <div id="friendsList"></div>
 
-createDemoPlayers(limit);
+  </div>
 
-document.getElementById("startButton").style.display="block";
+</div>
 
-showScreen("lobby");
 
-}
+<div id="dms" class="screen">
 
+  <div class="card">
 
-function createDemoPlayers(limit){
+    <div class="smallTitle">
+      💬 DMs
+    </div>
 
-const names=[
-"Alex",
-"Sam",
-"Jordan",
-"Chris",
-"Max",
-"Jamie",
-"Taylor",
-"Mason",
-"Leo"
-];
+    <div id="dmList"></div>
 
-const container=
-document.getElementById("fakePlayers");
+  </div>
 
-container.innerHTML="";
+</div>
 
-const demoCount=
-Math.min(2,limit-1);
 
-for(let i=0;i<demoCount;i++){
+<div id="chat" class="screen">
 
-const player=document.createElement("div");
+  <div class="card">
 
-player.className="player";
+    <div class="chatHeader">
 
-player.innerHTML=
-"<span>"+names[i]+"</span>"+
-"<span style='color:#4ade80'>READY</span>";
+      <div>
 
-container.appendChild(player);
+        <div
+          id="chatName"
+          class="smallTitle"
+          style="margin:0">
+          Alex
+        </div>
 
-}
+        <div
+          id="chatStatus"
+          class="status">
+          Online
+        </div>
 
-document.getElementById("lobbyStatus").textContent=
-(1+demoCount)+" / "+limit+" players";
+      </div>
 
-}
+      <button
+        class="callButton"
+        onclick="fakeCall()">
+        📞
+      </button>
 
+    </div>
 
-function joinServer(){
+    <div
+      id="messages"
+      class="messages">
+    </div>
 
-const code=
-document.getElementById("joinCode")
-.value
-.trim()
-.toUpperCase();
+    <div class="chatBar">
 
-const error=
-document.getElementById("joinError");
+      <button
+        class="circleButton"
+        onclick="attachFile()">
+        +
+      </button>
 
-if(code.length!==6){
+      <input
+        id="messageInput"
+        placeholder="Type a message...">
 
-error.style.display="block";
-return;
+      <button
+        class="circleButton"
+        onclick="emoji()">
+        😊
+      </button>
 
-}
+      <button
+        class="sendButton"
+        onclick="sendMessage()">
+        ➤
+      </button>
 
-error.style.display="none";
+    </div>
 
-currentServerCode=code;
+    <button
+      class="backButton"
+      onclick="showScreen('dms')">
+      BACK
+    </button>
 
-document.getElementById("lobbyName").textContent="Joined Server";
-document.getElementById("inviteCode").textContent=code;
+  </div>
 
-document.getElementById("fakePlayers").innerHTML="";
+</div>
 
-document.getElementById("lobbyStatus").textContent=
-"Waiting for the host to start...";
 
-document.getElementById("startButton").style.display="none";
+<div id="settings" class="screen">
 
-showScreen("lobby");
+  <div class="card">
 
-}
+    <div class="smallTitle">
+      ⚙️ Settings
+    </div>
 
+    <div class="smallTitle" style="font-size:18px">
+      Display
+    </div>
 
-/* =========================
-   GAME
-========================= */
+    <div class="settingsRow">
 
-let currentQuestion=0;
-let score=0;
+      <span>Dark mode</span>
 
-function startGame(){
+      <input
+        id="darkMode"
+        type="checkbox"
+        checked
+        onchange="toggleTheme()"
+        style="width:22px;height:22px">
 
-currentQuestion=0;
-score=0;
+    </div>
 
-document.getElementById("score").textContent="0";
+    <div class="settingsRow">
 
-loadQuestion();
+      <span>Language</span>
 
-showScreen("game");
-
-}
-
-
-function loadQuestion(){
-
-const lang=
-localStorage.getItem("capor_language")||"en";
-
-const t=
-translations[lang]||translations.en;
-
-document.getElementById("question").textContent=
-questions[currentQuestion];
-
-document.getElementById("questionNumber").textContent=
-t.question+" "+(currentQuestion+1)+" / "+questions.length;
-
-document.getElementById("voteButtons").style.display="flex";
-
-document.getElementById("results").style.display="none";
-
-}
-
-
-function vote(choice){
-
-document.getElementById("voteButtons").style.display="none";
-document.getElementById("results").style.display="block";
-
-let capVotes=Math.floor(Math.random()*4);
-let factsVotes=Math.floor(Math.random()*4);
-
-if(choice==="cap"){
-capVotes++;
-}else{
-factsVotes++;
-}
-
-const total=capVotes+factsVotes;
-
-const capPercent=
-Math.round((capVotes/total)*100);
-
-const factsPercent=
-100-capPercent;
-
-document.getElementById("capBar").style.width=
-capPercent+"%";
-
-document.getElementById("factsBar").style.width=
-factsPercent+"%";
-
-document.getElementById("capPercent").textContent=
-capPercent+"% CAP";
-
-document.getElementById("factsPercent").textContent=
-factsPercent+"% FACTS";
-
-let winner;
-
-if(capPercent>factsPercent){
-winner="CAP WINS!";
-}else if(factsPercent>capPercent){
-winner="FACTS WINS!";
-}else{
-winner="IT'S A TIE!";
-}
-
-document.getElementById("winner").textContent=winner;
-
-if(
-(choice==="cap" && capPercent>factsPercent) ||
-(choice==="facts" && factsPercent>capPercent)
-){
-
-score++;
-
-document.getElementById("score").textContent=score;
-
-}
-
-}
-
-
-function nextQuestion(){
-
-currentQuestion++;
-
-if(currentQuestion>=questions.length){
-currentQuestion=0;
-}
-
-loadQuestion();
-
-}
-
-
-/* =========================
-   LOAD SAVED LANGUAGE
-========================= */
-
-const savedLanguage=
-localStorage.getItem("capor_language");
-
-if(savedLanguage){
-
-document.getElementById("languageSelect").value=
-savedLanguage;
-
-}
-
-applyLanguage();
-
-</script>
-
-</body>
-  </html>
+      <s
