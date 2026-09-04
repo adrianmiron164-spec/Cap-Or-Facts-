@@ -642,35 +642,54 @@ input,select{
 
   <div id="mainHome">
 
-    <div class="card">
-      <div class="smallTitle">Play CapOrFacts</div>
+      <div id="mainHome">
 
-      <div class="homeButtons">
+    <div class="serverGrid">
 
-        <button
-          class="bigButton green"
-          onclick="showScreen('create')">
-          CREATE SERVER
-        </button>
+      <!-- ROW 1 -->
+      <button
+        class="serverSlot serverAction"
+        onclick="showScreen('create')">
+        CREATE<br>SERVER
+      </button>
 
-        <button
-          id="joinHome"
-          class="bigButton red"
-          onclick="showScreen('join')">
-          JOIN SERVER
-        </button>
+      <button
+        class="serverSlot serverAction"
+        onclick="showScreen('join')">
+        JOIN<br>SERVER
+      </button>
 
-<button
-  class="bigButton blue"
-  onclick="showScreen('support')">
-  💙 SUPPORT
-</button>
-        
+      <div class="serverSlot"></div>
+
+      <!-- ROW 2 -->
+      <div class="serverSlot"></div>
+      <div class="serverSlot"></div>
+      <div class="serverSlot"></div>
+
+      <!-- ROW 3 -->
+      <div class="serverSlot"></div>
+
+      <div class="serverMessage">
+        No public servers yet...
       </div>
+
+      <div class="serverSlot"></div>
+
+      <!-- ROW 4 -->
+      <div class="serverSlot"></div>
+      <div class="serverSlot"></div>
+      <div class="serverSlot"></div>
+
+      <!-- ROW 5 -->
+      <div class="serverSlot"></div>
+      <div class="serverSlot"></div>
+      <div class="serverSlot"></div>
+
     </div>
 
   </div>
 
+  
 
   <div id="duelHome" style="display:none">
 
@@ -679,23 +698,6 @@ input,select{
       <div class="smallTitle">
         ⚔️ 1V1 Duel
       </div>
-
-      <p style="color:var(--muted);line-height:1.5">
-        Challenge one friend to a real Cap-or-Facts battle.
-        Unlike the Main Game, Duel questions have actual answers.
-      </p>
-
-      <button
-        class="primaryButton"
-        onclick="startDuelSetup()">
-        CHALLENGE A FRIEND
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
 
 
 <div id="create" class="screen">
@@ -758,7 +760,9 @@ input,select{
 
   </div>
 
-</div>
+</div> 
+
+      <div id="create" class="screen">
 
 
 <div id="join" class="screen">
